@@ -37,13 +37,11 @@ citation_parser.add_argument('dataset', help='weav citation or dataset citation'
 trim_parser.add_argument('src', help='source data set name', default=None)
 trim_parser.add_argument('dst', help='destination file name', default=None)
 trim_parser.add_argument('attr', help='data set name', nargs='?', default=None)
-# file_join_parser.add_argument('config', help='join configuration file', nargs='?', default=None)
 
 join_subparsers = install_parser.add_subparsers(help='engine-specific help', dest='engine')
 
 for engine in engine_list:
     join_engine_parser = join_subparsers.add_parser(engine.abbreviation, help=engine.name)
-    join_engine_parser.add_argument('config', help='config file')
 
     abbreviations = set('h')
     for arg in engine.required_opts:
@@ -62,10 +60,8 @@ for engine in engine_list:
 #                                         default=default)
         join_engine_parser.add_argument('--%s' % arg_name, '-%s' % abbreviation, help=help_msg, nargs='?',
                                        default=default)
-
-if parser.parse_args().command=='join' and parser.parse_args().engine is None:
-    parser.parse_args(['-h'])
-
+install_parser.add_argument('config', help='file name',nargs=1, default=None)
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    print(args)
