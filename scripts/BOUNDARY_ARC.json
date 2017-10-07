@@ -1,0 +1,129 @@
+{
+    "citation": "weaver Pending clarification",
+    "description": "BOUNDARY_POLY",
+    "driver_name": "ESRI Shapefile",
+    "extent": [
+        33861.264215394855,
+        336337.87421539426,
+        771781.3108559996,
+        959747.4408560023
+    ],
+    "geom_type": 3,
+    "gis_class": "vector",
+    "keywords": [
+        "test",
+        "data science",
+        "spatial-data"
+    ],
+    "license": "Licence for dataset Pending clarification",
+    "name": "BOUNDARY_POLY",
+    "resources": [
+        {
+            "name": "BOUNDARY_POLY",
+            "schema": {
+                "fields": [
+                    {
+                        "Precision": 0,
+                        "name": "TOWN_ID",
+                        "size": 5,
+                        "type": "Integer"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "TOWN",
+                        "size": 21,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "FIPS_STCO",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "CCD_MCD",
+                        "size": 3,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "FIPS_PLACE",
+                        "size": 5,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POP1980",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POP1990",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POP2000",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POPCH80_90",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POPCH90_00",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "FOURCOLOR",
+                        "size": 5,
+                        "type": "Integer"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "TYPE",
+                        "size": 2,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POP2010",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "POPCH00_10",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 11,
+                        "name": "SHAPE_AREA",
+                        "size": 19,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 11,
+                        "name": "SHAPE_LEN",
+                        "size": 19,
+                        "type": "Real"
+                    }
+                ]
+            }
+        }
+    ],
+    "spatial_ref": "PROJCS[\"NAD_1983_StatePlane_Massachusetts_Mainland_FIPS_2001\",GEOGCS[\"GCS_North_American_1983\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"False_Easting\",200000.0],PARAMETER[\"False_Northing\",750000.0],PARAMETER[\"Central_Meridian\",-71.5],PARAMETER[\"Standard_Parallel_1\",41.71666666666667],PARAMETER[\"Standard_Parallel_2\",42.68333333333333],PARAMETER[\"Latitude_Of_Origin\",41.0],UNIT[\"Meter\",1.0]]",
+    "title": "The BOUNDARY_POLY dataset",
+    "url": "FILL",
+    "version": "1.0.0"
+}

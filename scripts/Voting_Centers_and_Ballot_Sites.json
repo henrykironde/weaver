@@ -1,0 +1,111 @@
+{
+    "citation": "weaver Pending clarification",
+    "description": "Voting_Centers_and_Ballot_Sites",
+    "driver_name": "ESRI Shapefile",
+    "extent": [
+        -122.74594039388646,
+        -122.02970709518318,
+        46.88883731251331,
+        47.38874085048187
+    ],
+    "geom_type": 1,
+    "gis_class": "vector",
+    "keywords": [
+        "test",
+        "data science",
+        "spatial-data"
+    ],
+    "license": "Licence for dataset Pending clarification",
+    "name": "Voting_Centers_and_Ballot_Sites",
+    "resources": [
+        {
+            "name": "Voting_Centers_and_Ballot_Sites",
+            "schema": {
+                "fields": [
+                    {
+                        "Precision": 0,
+                        "name": "OBJECTID",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Name",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Type",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Address",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "City",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Notes",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Open_Sched",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Close_Sche",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Active",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Status",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Zip",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Phone",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "Picture",
+                        "size": 80,
+                        "type": "String"
+                    }
+                ]
+            }
+        }
+    ],
+    "spatial_ref": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"WGS_1984\",SPHEROID[\"WGS_84\",6378137,298.257223563]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]]",
+    "title": "The Voting_Centers_and_Ballot_Sites dataset",
+    "url": "FILL",
+    "version": "1.0.0"
+}

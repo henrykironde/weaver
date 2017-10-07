@@ -1,0 +1,183 @@
+{
+    "citation": "weaver Pending clarification",
+    "description": "PlotLocations_HARV",
+    "driver_name": "ESRI Shapefile",
+    "extent": [
+        731405.307,
+        732275.307,
+        4712844.977,
+        4713846.299
+    ],
+    "geom_type": 1,
+    "gis_class": "vector",
+    "keywords": [
+        "test",
+        "data science",
+        "spatial-data"
+    ],
+    "license": "Licence for dataset Pending clarification",
+    "name": "PlotLocations_HARV",
+    "resources": [
+        {
+            "name": "PlotLocations_HARV",
+            "schema": {
+                "fields": [
+                    {
+                        "Precision": 15,
+                        "name": "X",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "Y",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "plotID",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "pointID",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "mOrder",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "country",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "stateProvi",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "county",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "domainName",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "domainID",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "siteName",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "siteID",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "plotType",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "subtype",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "plotSize",
+                        "size": 10,
+                        "type": "Integer64"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "plotDimens",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "decimalLat",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "decimalLon",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "geodeticDa",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "utmZone",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "elevation",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "slopeGradi",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "slopeAspec",
+                        "size": 24,
+                        "type": "Real"
+                    },
+                    {
+                        "Precision": 0,
+                        "name": "soilTypeOr",
+                        "size": 80,
+                        "type": "String"
+                    },
+                    {
+                        "Precision": 15,
+                        "name": "plotdim",
+                        "size": 24,
+                        "type": "Real"
+                    }
+                ]
+            }
+        }
+    ],
+    "spatial_ref": "PROJCS[\"WGS_1984_UTM_Zone_18N\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"WGS_1984\",SPHEROID[\"WGS_84\",6378137,298.257223563]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-75],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"Meter\",1]]",
+    "title": "The PlotLocations_HARV dataset",
+    "url": "FILL",
+    "version": "1.0.0"
+}
