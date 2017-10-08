@@ -8,7 +8,7 @@
         46.88883731251331,
         47.38874085048187
     ],
-    "geom_type": 1,
+    "geom_type": "Point",
     "gis_class": "vector",
     "keywords": [
         "test",
