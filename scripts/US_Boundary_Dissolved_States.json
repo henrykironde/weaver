@@ -86,6 +86,12 @@
             }
         }
     ],
+    "retriever": [
+        "True"
+    ],
+    "retriever_minimum_version": [
+        "2.1.0"
+    ],
     "spatial_ref": "GEOGCS[\"GCS_WGS_1984\",DATUM[\"WGS_1984\",SPHEROID[\"WGS_84\",6378137,298.257223563]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.017453292519943295]]",
     "title": "The US-State-Boundaries-Census-2014 dataset",
     "url": "FILL",
