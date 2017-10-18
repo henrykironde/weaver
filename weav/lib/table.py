@@ -182,7 +182,17 @@ class Table(object):
 class RasterTable(MainTable):
     """Raster table implementation"""
 
-    pass
+    def __init__(self, name, **kwargs):
+        self.group = None
+        self.name = False
+        self.relative_path = 0
+        self.resolution = None
+        self.resolution_units = {}
+        self.dimensions = None
+        self.noDataValue = None
+        self.geoTransform = None
+        self.parameter = None
+        self.extent = None
 
 
 class VectorTable(MainTable):
@@ -198,32 +208,30 @@ class VectorTable(MainTable):
         self.extent = []
         self.saptialref = None
 
-
-
     def create_table_statement(self):
         """Return create table statment for vector data"""
-        pass
+        self.name = False
 
     def drop_vetor_data_tabe(self):
         """Drop the table for vector data
 
         NOTE: This may require droping the foreign keys cascaded
         """
-        pass
+        self.name = False
 
     def insert_to_table(self):
         """This function is used to insert to table"""
-        pass
+        self.name = False
 
     def extract_table(self):
         """Select a set of data from the table"""
-        pass
+        self.name = False
 
     def to_raster(self):
         """Convert vector to Raster"""
 
-        pass
+        self.name = False
 
     def project_to_WGS1984(self, package_proj = None):
         if not package_proj:
-            pass
+            self.name = False

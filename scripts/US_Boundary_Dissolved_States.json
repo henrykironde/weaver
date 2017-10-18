@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "US-State-Boundaries-Census-2014",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        -124.72583900000001,
-        -66.949895,
-        24.498130999999997,
-        49.384358
-    ],
-    "geom_type": "3D Polygon",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": -66.949895,
+        "xMin": -124.72583900000001,
+        "yMax": 49.384358,
+        "yMin": 24.498130999999997
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,66 +18,67 @@
     "name": "US-State-Boundaries-Census-2014",
     "resources": [
         {
+            "geom_type": "3D Polygon",
             "name": "US-State-Boundaries-Census-2014",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 0,
                         "name": "STATEFP",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "STATENS",
+                        "precision": 0,
                         "size": 8,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "AFFGEOID",
+                        "precision": 0,
                         "size": 11,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "GEOID",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "STUSPS",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "NAME",
+                        "precision": 0,
                         "size": 100,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "LSAD",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ALAND",
+                        "precision": 0,
                         "size": 14,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "AWATER",
+                        "precision": 0,
                         "size": 14,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "region",
+                        "precision": 0,
                         "size": 100,
                         "type": "String"
                     }

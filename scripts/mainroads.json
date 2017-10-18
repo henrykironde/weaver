@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "ukgaz",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        297386.0,
-        379525.0,
-        468765.0,
-        574912.0
-    ],
-    "geom_type": "Point",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": 379525.0,
+        "xMin": 297386.0,
+        "yMax": 574912.0,
+        "yMin": 468765.0
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,30 +18,31 @@
     "name": "ukgaz",
     "resources": [
         {
+            "geom_type": "Point",
             "name": "ukgaz",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 0,
                         "name": "Name",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "pop",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "area",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "region",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     }

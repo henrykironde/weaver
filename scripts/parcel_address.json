@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "parcel_address",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        1218256.2234999985,
-        1577865.299999997,
-        30932.680000007153,
-        287704.24400000274
-    ],
-    "geom_type": "Polygon",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": 1577865.299999997,
+        "xMin": 1218256.2234999985,
+        "yMax": 287704.24400000274,
+        "yMin": 30932.680000007153
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,372 +18,373 @@
     "name": "parcel_address",
     "resources": [
         {
+            "geom_type": "Polygon",
             "name": "parcel_address",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 0,
                         "name": "MAJOR",
+                        "precision": 0,
                         "size": 6,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "MINOR",
+                        "precision": 0,
                         "size": 4,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PIN",
+                        "precision": 0,
                         "size": 10,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "COMMENTS",
+                        "precision": 0,
                         "size": 254,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "SITETYPE",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "Alias1",
+                        "precision": 0,
                         "size": 60,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "Alias2",
+                        "precision": 0,
                         "size": 60,
                         "type": "String"
                     },
                     {
-                        "Precision": 8,
                         "name": "SITEID",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_HN",
+                        "precision": 0,
                         "size": 10,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_PD",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_PT",
+                        "precision": 0,
                         "size": 6,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_SN",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_ST",
+                        "precision": 0,
                         "size": 6,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_SD",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_NUM",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "ADDR_FULL",
+                        "precision": 0,
                         "size": 120,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "FULLNAME",
+                        "precision": 0,
                         "size": 120,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "ZIP5",
+                        "precision": 0,
                         "size": 5,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PLUS4",
+                        "precision": 0,
                         "size": 4,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "CTYNAME",
+                        "precision": 0,
                         "size": 28,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "POSTALCTYN",
+                        "precision": 0,
                         "size": 28,
                         "type": "String"
                     },
                     {
-                        "Precision": 8,
                         "name": "LAT",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 8,
                         "name": "LON",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 8,
                         "name": "POINT_X",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 8,
                         "name": "POINT_Y",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 0,
                         "name": "COUNTY",
+                        "precision": 0,
                         "size": 12,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "KROLL",
+                        "precision": 0,
                         "size": 4,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "JURIS",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "BIG_TEN",
+                        "precision": 0,
                         "size": 20,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "BUDGET_UNI",
+                        "precision": 0,
                         "size": 40,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "KCTP_CITY",
+                        "precision": 0,
                         "size": 75,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "KCTP_STATE",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PLSS",
+                        "precision": 0,
                         "size": 11,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PROP_NAME",
+                        "precision": 0,
                         "size": 50,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PLAT_NAME",
+                        "precision": 0,
                         "size": 50,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PLAT_LOT",
+                        "precision": 0,
                         "size": 14,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PLAT_BLOCK",
+                        "precision": 0,
                         "size": 7,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PRESENTUSE",
+                        "precision": 0,
                         "size": 5,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "LOTSQFT",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "LEVYCODE",
+                        "precision": 0,
                         "size": 4,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "LEVY_JURIS",
+                        "precision": 0,
                         "size": 25,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "NEW_CONSTR",
+                        "precision": 0,
                         "size": 1,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "TAXVAL_RSN",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 8,
                         "name": "APPRLNDVAL",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 8,
                         "name": "APPR_IMPR",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 8,
                         "name": "TAX_LNDVAL",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 8,
                         "name": "TAX_IMPR",
+                        "precision": 8,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 0,
                         "name": "ACCNT_NUM",
+                        "precision": 0,
                         "size": 12,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "KCTP_TAXYR",
+                        "precision": 0,
                         "size": 5,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "KCTP_PAR",
+                        "precision": 0,
                         "size": 10,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "UNIT_NUM",
+                        "precision": 0,
                         "size": 254,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "BLDG_NUM",
+                        "precision": 0,
                         "size": 254,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "CONDOSITUS",
+                        "precision": 0,
                         "size": 254,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "QTS",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "SEC",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "TWP",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "RNG",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "PRIMARY_AD",
+                        "precision": 0,
                         "size": 5,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "legaldesc",
+                        "precision": 0,
                         "size": 254,
                         "type": "String"
                     },
                     {
-                        "Precision": 11,
                         "name": "Shape_area",
+                        "precision": 11,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 11,
                         "name": "Shape_len",
+                        "precision": 11,
                         "size": 19,
                         "type": "Real"
                     }

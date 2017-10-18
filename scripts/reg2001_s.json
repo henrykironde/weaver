@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "reg2001_s",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        313360.99994548626,
-        1312106.7172662274,
-        3933878.6104726084,
-        5220491.203120949
-    ],
-    "geom_type": "Polygon",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": 1312106.7172662274,
+        "xMin": 313360.99994548626,
+        "yMax": 5220491.203120949,
+        "yMin": 3933878.6104726084
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,24 +18,25 @@
     "name": "reg2001_s",
     "resources": [
         {
+            "geom_type": "Polygon",
             "name": "reg2001_s",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 0,
                         "name": "COD_REG",
+                        "precision": 0,
                         "size": 3,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "REGIONE",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "POP2001",
+                        "precision": 0,
                         "size": 9,
                         "type": "Integer"
                     }

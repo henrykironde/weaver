@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "prov2001_s",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        313361.0,
-        1312106.7172662274,
-        3933878.610472609,
-        5220491.20312095
-    ],
-    "geom_type": "Polygon",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": 1312106.7172662274,
+        "xMin": 313361.0,
+        "yMax": 5220491.20312095,
+        "yMin": 3933878.610472609
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,36 +18,37 @@
     "name": "prov2001_s",
     "resources": [
         {
+            "geom_type": "Polygon",
             "name": "prov2001_s",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 0,
                         "name": "COD_REG",
+                        "precision": 0,
                         "size": 3,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "COD_PRO",
+                        "precision": 0,
                         "size": 3,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "PROVINCIA",
+                        "precision": 0,
                         "size": 100,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "SIGLA",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "POP2001",
+                        "precision": 0,
                         "size": 9,
                         "type": "Integer"
                     }

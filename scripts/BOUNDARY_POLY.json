@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "BOUNDARY_POLY",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        33861.264215394855,
-        336337.87421539426,
-        771781.3108559996,
-        959747.4408560023
-    ],
-    "geom_type": "Polygon",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": 336337.87421539426,
+        "xMin": 33861.264215394855,
+        "yMax": 959747.4408560023,
+        "yMin": 771781.3108559996
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,102 +18,103 @@
     "name": "BOUNDARY_POLY",
     "resources": [
         {
+            "geom_type": "Polygon",
             "name": "BOUNDARY_POLY",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 0,
                         "name": "TOWN_ID",
+                        "precision": 0,
                         "size": 5,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "TOWN",
+                        "precision": 0,
                         "size": 21,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "FIPS_STCO",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "CCD_MCD",
+                        "precision": 0,
                         "size": 3,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "FIPS_PLACE",
+                        "precision": 0,
                         "size": 5,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "POP1980",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "POP1990",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "POP2000",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "POPCH80_90",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "POPCH90_00",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "FOURCOLOR",
+                        "precision": 0,
                         "size": 5,
                         "type": "Integer"
                     },
                     {
-                        "Precision": 0,
                         "name": "TYPE",
+                        "precision": 0,
                         "size": 2,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "POP2010",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "POPCH00_10",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 11,
                         "name": "SHAPE_AREA",
+                        "precision": 11,
                         "size": 19,
                         "type": "Real"
                     },
                     {
-                        "Precision": 11,
                         "name": "SHAPE_LEN",
+                        "precision": 11,
                         "size": 19,
                         "type": "Real"
                     }

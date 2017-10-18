@@ -2,14 +2,13 @@
     "citation": "weaver Pending clarification",
     "description": "PlotLocations_HARV",
     "driver_name": "ESRI Shapefile",
-    "extent": [
-        731405.307,
-        732275.307,
-        4712844.977,
-        4713846.299
-    ],
-    "geom_type": "Point",
-    "gis_class": "vector",
+    "extent": {
+        "xMax": 732275.307,
+        "xMin": 731405.307,
+        "yMax": 4713846.299,
+        "yMin": 4712844.977
+    },
+    "format": "vector",
     "keywords": [
         "test",
         "data science",
@@ -19,156 +18,157 @@
     "name": "PlotLocations_HARV",
     "resources": [
         {
+            "geom_type": "Point",
             "name": "PlotLocations_HARV",
             "schema": {
                 "fields": [
                     {
-                        "Precision": 15,
                         "name": "X",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 15,
                         "name": "Y",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 0,
                         "name": "plotID",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "pointID",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "mOrder",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "country",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "stateProvi",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "county",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "domainName",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "domainID",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "siteName",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "siteID",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "plotType",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "subtype",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "plotSize",
+                        "precision": 0,
                         "size": 10,
                         "type": "Integer64"
                     },
                     {
-                        "Precision": 0,
                         "name": "plotDimens",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 15,
                         "name": "decimalLat",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 15,
                         "name": "decimalLon",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 0,
                         "name": "geodeticDa",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 0,
                         "name": "utmZone",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 15,
                         "name": "elevation",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 15,
                         "name": "slopeGradi",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 15,
                         "name": "slopeAspec",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     },
                     {
-                        "Precision": 0,
                         "name": "soilTypeOr",
+                        "precision": 0,
                         "size": 80,
                         "type": "String"
                     },
                     {
-                        "Precision": 15,
                         "name": "plotdim",
+                        "precision": 15,
                         "size": 24,
                         "type": "Real"
                     }
