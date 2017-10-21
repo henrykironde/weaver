@@ -1,4 +1,4 @@
-"""Data Retriever Excel Functions
+"""Data weav Excel Functions
 
 This module contains optional functions for importing data from Excel.
 

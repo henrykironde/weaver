@@ -1,0 +1,30 @@
+{
+    "result": {
+      "name": "dynamics",
+      "fields":[]
+    },
+    "main_file": {
+      "name": "somecsv",
+      "fields": [
+        "a",
+        "b",
+        "c"
+      ],
+      "extent": {
+        "xMax": 1312106.717272291,
+        "xMin": 313361.0,
+        "yMax": 5220491.203125,
+        "yMin": 3933878.610472609
+      }
+    },
+    "joins": {
+      "name": "somecsv",
+        "fields": [
+        "a",
+        "b",
+        "c"
+      ],
+      "on": {"somecsv.c":"main.c"}
+    }
+
+}

@@ -117,9 +117,8 @@ class Engine(object):
                         raise
                     try:
                         self.executemany(insert_stmt, multiple_values, commit=False)
-                        prompt = "Progress: " + str(count_iter) + " / " + str(
-                            real_line_length) + " rows inserted into " + self.table_name() + " totaling " + str(
-                            total) + ":"
+                        prompt = "Progress: {}/{} rows inserted into {} totaling {}:".format(
+                            count_iter, real_line_length, self.table_name(), total)
                         sys.stdout.write(prompt + "\b" * len(prompt))
                         sys.stdout.flush()
                     except:
@@ -684,7 +683,7 @@ class Engine(object):
 
     def to_csv(self):
         # Due to Cyclic imports we can not move this import to the top
-        from weav.lib.tools import sort_csv
+        from retriever.lib.tools import sort_csv
         for _ in list(self.script.urls.keys()):
             table_name = self.table_name()
             csv_file_output = os.path.normpath(table_name + '.csv')
@@ -738,6 +737,9 @@ class Engine(object):
             pos += width
         return values
 
+    def gis_import(self,table):
+        self.table = table
+        return table
 
 def skip_rows(rows, source):
     """Skip over the header lines by reading them before processing."""

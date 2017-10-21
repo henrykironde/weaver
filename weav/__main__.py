@@ -63,6 +63,11 @@ def main():
                   "Either we search the default retriever data folder")
             return
 
+        if args.command == 'join':
+            # open the conf file
+            pass
+
+
 
 if __name__ == "__main__":
     main()
