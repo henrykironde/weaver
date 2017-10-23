@@ -47,7 +47,8 @@
                         "type": "String"
                     }
                 ]
-            }
+            },
+            "url": "ukgazpath_to_be_filled"
         }
     ],
     "retriever": [

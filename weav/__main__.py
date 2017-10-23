@@ -65,7 +65,20 @@ def main():
 
         if args.command == 'join':
             # open the conf file
+            print(args.config[0])
+        from collections import OrderedDict
+        import json
+        json_object = OrderedDict()
+        json_file = args.config[0]
+
+        try:
+            json_object = json.load(open(json_file, "r"))
+        except ValueError:
             pass
+        from weav.lib.scripts import MODULE_LIST
+        for items in MODULE_LIST():
+            print( items)
+            # print(json_object)
 
 
 

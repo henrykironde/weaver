@@ -41,7 +41,8 @@
                         "type": "Integer"
                     }
                 ]
-            }
+            },
+            "url": "reg2001_spath_to_be_filled"
         }
     ],
     "retriever": [

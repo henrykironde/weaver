@@ -173,7 +173,8 @@
                         "type": "Real"
                     }
                 ]
-            }
+            },
+            "url": "PlotLocations_HARVpath_to_be_filled"
         }
     ],
     "retriever": [

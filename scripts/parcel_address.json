@@ -389,7 +389,8 @@
                         "type": "Real"
                     }
                 ]
-            }
+            },
+            "url": "parcel_addresspath_to_be_filled"
         }
     ],
     "retriever": [

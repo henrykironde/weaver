@@ -101,7 +101,8 @@
                         "type": "String"
                     }
                 ]
-            }
+            },
+            "url": "Voting_Centers_and_Ballot_Sitespath_to_be_filled"
         }
     ],
     "retriever": [

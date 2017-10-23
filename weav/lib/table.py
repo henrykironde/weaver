@@ -305,7 +305,7 @@ class TableVector(TableMain):
     def drop_vetor_data_tabe(self):
         """Drop the table for vector data
 
-        NOTE: This may require droping the foreign keys cascaded
+        NOTE: This may require dropping the foreign keys cascaded
         """
         self.name = False
 

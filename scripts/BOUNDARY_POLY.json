@@ -119,7 +119,8 @@
                         "type": "Real"
                     }
                 ]
-            }
+            },
+            "url": "BOUNDARY_POLYpath_to_be_filled"
         }
     ],
     "retriever": [

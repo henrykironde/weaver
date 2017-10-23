@@ -53,7 +53,8 @@
                         "type": "Integer"
                     }
                 ]
-            }
+            },
+            "url": "com2001_spath_to_be_filled"
         }
     ],
     "retriever": [

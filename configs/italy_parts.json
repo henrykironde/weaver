@@ -1,30 +1,83 @@
 {
-    "result": {
-      "name": "dynamics",
-      "fields":[]
-    },
-    "main_file": {
-      "name": "somecsv",
-      "fields": [
-        "a",
-        "b",
-        "c"
-      ],
-      "extent": {
-        "xMax": 1312106.717272291,
-        "xMin": 313361.0,
-        "yMax": 5220491.203125,
-        "yMin": 3933878.610472609
-      }
-    },
-    "joins": {
-      "name": "somecsv",
-        "fields": [
-        "a",
-        "b",
-        "c"
-      ],
-      "on": {"somecsv.c":"main.c"}
+  "result": {
+    "dataset": "db_name",
+    "table": "dynamics",
+    "fields": []
+  },
+  "main_file": {
+    "dataset": "mammal-masses",
+    "table": "mammalmasses",
+    "fields": [
+      "comb_mass_g",
+      "continent",
+      "family",
+      "genus",
+      "log_mass_g",
+      "reference",
+      "species",
+      "sporder",
+      "status"
+    ],
+    "extent": {
+      "xMax": 1312106.717272291,
+      "xMin": 313361,
+      "yMax": 5220491.203125,
+      "yMin": 3933878.610472609
     }
-
+  },
+  "joins": [
+    {
+      "dataset": "mammal_community_db",
+      "table": "sites",
+      "fields": [
+        "site_id",
+        "reference_id",
+        "location",
+        "country",
+        "state",
+        "latitude",
+        "longitude",
+        "uncertainty_radius",
+        "elevation_low",
+        "elevation_high",
+        "habitat_description",
+        "habitat_code",
+        "abundance_data_present",
+        "abundance_data_format",
+        "spatial_extent",
+        "study_duration",
+        "time_series",
+        "n_years",
+        "notes"
+      ]
+    },
+    {
+      "dataset": "mammal_community_db",
+      "table": "species",
+      "fields": [
+        "species_id",
+        "family",
+        "genus",
+        "species",
+        "species_level"
+      ]
+    },
+    {
+      "dataset": "mammal-masses",
+      "table": "mammalmasses",
+      "fields": [
+        "comb_mass_g",
+        "continent",
+        "family",
+        "genus",
+        "log_mass_g",
+        "reference",
+        "species",
+        "sporder",
+        "status"
+      ]
+    }
+  ]
+//  "join": ["mammal_community_db.communities","mammal_community_db.species"],"join_on" :["species_id"]
+//  "join": ["mammal-masses.mammalmasses","mammal_community_db.species"],"join_on" :["species","genus"]},
 }

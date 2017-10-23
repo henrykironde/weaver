@@ -7,11 +7,12 @@ import os
 from codecs import open
 from setuptools import setup
 from pkg_resources import parse_version
+from setuptools import setup, find_packages
 
 current_platform = platform.system().lower()
 extra_includes = []
 
-__version__ = 'v0.0.dev'
+__version__ = '1.0.0'
 with open(os.path.join("weav", "_version.py"), "w") as version_file:
     version_file.write("__version__ = " + "'" + __version__ + "'\n")
     version_file.close()
@@ -81,10 +82,14 @@ setup(name='weav',
                    'Programming Language :: Python',
                    'Programming Language :: Python :: 2',
                    'Programming Language :: Python :: 3', ],
-      packages=packages,
-      package_dir={
-          'weav': 'weav'
-      },
+      packages=find_packages(
+          exclude=['hooks',
+                   'docs',
+                   'tests',
+                   'scripts',
+                   'docker',
+                   ".cache" ]),
+
       entry_points={
           'console_scripts': [
               'weav = weav.__main__:main',

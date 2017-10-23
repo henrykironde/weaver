@@ -83,7 +83,8 @@
                         "type": "String"
                     }
                 ]
-            }
+            },
+            "url": "US-State-Boundaries-Census-2014path_to_be_filled"
         }
     ],
     "retriever": [
