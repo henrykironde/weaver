@@ -23,6 +23,7 @@ from weav.lib.repository import check_for_updates
 from weav.lib.scripts import SCRIPT_LIST
 from weav.lib.tools import name_matches, reset_retriever
 
+from weav.lib.process import Processor
 encoding = ENCODING.lower()
 # sys removes the setdefaultencoding method at startup; reload to get it back
 reload(sys)
@@ -78,7 +79,7 @@ def main():
 
         # get tables from scripts
         tables_items = json_object["tables"]
-
+        Processor(name="henry", dictt=json_object)
 
 
         # from weav.lib.scripts import MODULE_LIST
