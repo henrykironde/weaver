@@ -504,6 +504,10 @@ class Engine(object):
         return all([self.table_exists(script.name, key)
                     for key in list(script.urls.keys()) if key])
 
+    def exists(self, database, table_name):
+        """Check to see if the given table exists."""
+        return self.table_exists(database, table_name)
+
     def final_cleanup(self):
         """Close the database connection."""
         if self.warnings:

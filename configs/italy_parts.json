@@ -25,7 +25,7 @@
       "yMin": 3933878.610472609
     }
   },
-  "joins": [
+  "tables": [
     {
       "dataset": "mammal_community_db",
       "table": "sites",
@@ -77,7 +77,26 @@
         "status"
       ]
     }
+  ],
+  "join": [
+    {
+      "tables": [
+        "mammal_community_db.communities",
+        "mammal_community_db.species"
+      ],
+      "join_on": [
+        "species_id"
+      ]
+    },
+    {
+      "tables": [
+        "mammal-masses.mammalmasses",
+        "mammal_community_db.species"
+      ],
+      "join_on": [
+        "species",
+        "genus"
+      ]
+    }
   ]
-//  "join": ["mammal_community_db.communities","mammal_community_db.species"],"join_on" :["species_id"]
-//  "join": ["mammal-masses.mammalmasses","mammal_community_db.species"],"join_on" :["species","genus"]},
 }
