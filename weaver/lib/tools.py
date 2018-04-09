@@ -18,9 +18,9 @@ import warnings
 
 from hashlib import md5
 from io import StringIO as newfile
-from weav.lib.defaults import HOME_DIR, ENCODING
+from weaver.lib.defaults import HOME_DIR, ENCODING
 
-from weav.lib.models import *
+from weaver.lib.models import *
 import xml.etree.ElementTree as ET
 
 warnings.filterwarnings("ignore")
@@ -29,24 +29,24 @@ TEST_ENGINES = dict()
 
 
 def create_home_dir():
-    """Create Directory for weav."""
+    """Create Directory for weaver."""
     current_platform = platform.system().lower()
     if current_platform != 'windows':
         import pwd
 
     # create the necessary directory structure for storing scripts/raw_data
-    # in the ~/.weav directory
+    # in the ~/.weaver directory
     for dir in (HOME_DIR, os.path.join(HOME_DIR, 'raw_data'), os.path.join(HOME_DIR, 'scripts')):
         if not os.path.exists(dir):
             try:
                 os.makedirs(dir)
                 if (current_platform != 'windows') and os.getenv("SUDO_USER"):
-                    # owner of .weav should be user even when installing
+                    # owner of .weaver should be user even when installing
                     # w/sudo
                     pw = pwd.getpwnam(os.getenv("SUDO_USER"))
                     os.chown(dir, pw.pw_uid, pw.pw_gid)
             except OSError:
-                print("The Retriever lacks permission to access the ~/.weav/ directory.")
+                print("The Retriever lacks permission to access the ~/.weaver/ directory.")
                 raise
 
 
@@ -265,7 +265,7 @@ def file_2list(input_file):
 
 def get_module_version():
     """This function gets the version number of the scripts and returns them in array form."""
-    from weav.lib.scripts import MODULE_LIST
+    from weaver.lib.scripts import MODULE_LIST
     modules = MODULE_LIST()
     scripts = []
     for module in modules:

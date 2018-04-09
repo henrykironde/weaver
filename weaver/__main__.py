@@ -14,16 +14,16 @@ import sys
 from builtins import input
 from imp import reload
 
-from weav.engines import engine_list, choose_engine
-from weav.lib.datapackage import create_json, edit_json, delete_json, get_script_filename
-from weav.lib.datasets import datasets, license
-from weav.lib.defaults import sample_script, CITATION, ENCODING
-from weav.lib.get_opts import parser
-from weav.lib.repository import check_for_updates
-from weav.lib.scripts import SCRIPT_LIST
-from weav.lib.tools import name_matches, reset_retriever
+from weaver.engines import engine_list, choose_engine
+from weaver.lib.datapackage import create_json, edit_json, delete_json, get_script_filename
+from weaver.lib.datasets import datasets, license
+from weaver.lib.defaults import sample_script, CITATION, ENCODING
+from weaver.lib.get_opts import parser
+from weaver.lib.repository import check_for_updates
+from weaver.lib.scripts import SCRIPT_LIST
+from weaver.lib.tools import name_matches, reset_retriever
 
-from weav.lib.process import Processor
+from weaver.lib.process import Processor
 encoding = ENCODING.lower()
 # sys removes the setdefaultencoding method at startup; reload to get it back
 reload(sys)
@@ -32,7 +32,7 @@ if hasattr(sys, 'setdefaultencoding'):
 
 
 def main():
-    """This function launches the weav."""
+    """This function launches the weaver."""
     sys.argv[1:] = [arg.lower() for arg in sys.argv[1:]]
     if len(sys.argv) == 1:
         # if no command line args are passed, show the help options
@@ -82,7 +82,7 @@ def main():
         Processor(name="henry", dictt=json_object)
 
 
-        # from weav.lib.scripts import MODULE_LIST
+        # from weaver.lib.scripts import MODULE_LIST
         # for items in MODULE_LIST():
         #     # print( items)
         #     print(json_object)

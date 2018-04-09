@@ -20,10 +20,10 @@ import csv
 import re
 import time
 from urllib.request import urlretrieve
-from weav.lib.scripts import open_fr, open_fw, open_csvw
-from weav.lib.defaults import DATA_SEARCH_PATHS, DATA_WRITE_PATH
-from weav.lib.cleanup import no_cleanup
-from weav.lib.warning import Warning
+from weaver.lib.scripts import open_fr, open_fw, open_csvw
+from weaver.lib.defaults import DATA_SEARCH_PATHS, DATA_WRITE_PATH
+from weaver.lib.cleanup import no_cleanup
+from weaver.lib.warning import Warning
 
 
 class Engine(object):

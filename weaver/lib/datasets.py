@@ -1,4 +1,4 @@
-from weav.lib.scripts import SCRIPT_LIST, get_script
+from weaver.lib.scripts import SCRIPT_LIST, get_script
 
 
 def datasets(arg_keyword=None):

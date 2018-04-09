@@ -7,7 +7,7 @@ import io
 import sys
 from functools import reduce
 
-from weav.lib.cleanup import *
+from weaver.lib.cleanup import *
 
 
 class TableMain(object):

@@ -4,10 +4,10 @@ import inspect
 import os
 import shutil
 
-from weav.lib.defaults import DATA_DIR
-from weav.lib.dummy import DummyConnection
-from weav.lib.engine import filename_from_url
-from weav.lib.models import Engine
+from weaver.lib.defaults import DATA_DIR
+from weaver.lib.dummy import DummyConnection
+from weaver.lib.engine import filename_from_url
+from weaver.lib.models import Engine
 
 
 class engine(Engine):

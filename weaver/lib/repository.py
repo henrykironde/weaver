@@ -11,8 +11,8 @@ import urllib.parse
 import urllib.error
 import imp
 from pkg_resources import parse_version
-from weav.lib.defaults import REPOSITORY, SCRIPT_WRITE_PATH, HOME_DIR
-from weav.lib.models import file_exists
+from weaver.lib.defaults import REPOSITORY, SCRIPT_WRITE_PATH, HOME_DIR
+from weaver.lib.models import file_exists
 
 
 def _download_from_repository(filepath, newpath, repo=REPOSITORY):
@@ -80,7 +80,7 @@ def check_for_updates(quite=True):
     except:
         raise
     if not quite:
-        print("\nThe weav is up-to-date")
+        print("\nThe weaver is up-to-date")
 
 
 def _update_progressbar(progress):

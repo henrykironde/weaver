@@ -1,0 +1,10 @@
+*.pyc
+dist/
+build/
+connections.config
+sqlite.db*
+retriever.egg-info
+apidocs
+.DS_Store
+.cache/*
+scripts/*.py

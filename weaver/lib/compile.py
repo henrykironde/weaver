@@ -6,15 +6,15 @@ if sys.version_info[0] < 3:
     from codecs import open
 
 script_templates = {
-    "default": """#weav
-from weav.lib.templates import BasicTextTemplate
-from weav.lib.models import Table, Cleanup, correct_invalid_value
+    "default": """#weaver
+from weaver.lib.templates import BasicTextTemplate
+from weaver.lib.models import Table, Cleanup, correct_invalid_value
 
 SCRIPT = BasicTextTemplate(%s)""",
 
-    "html_table": """#weav
-from weav.lib.templates import HtmlTableTemplate
-from weav.lib.models import Table, Cleanup, correct_invalid_value
+    "html_table": """#weaver
+from weaver.lib.templates import HtmlTableTemplate
+from weaver.lib.models import Table, Cleanup, correct_invalid_value
 
 SCRIPT = HtmlTableTemplate(%s)""",
 }
@@ -79,7 +79,7 @@ def add_schema(table_dict, table):
 def compile_json(json_file):
     """
     Function to compile JSON script files to python scripts
-    The scripts are created with `weav new_json <script_name>` using
+    The scripts are created with `weaver new_json <script_name>` using
     command line
     """
     json_object = {}
@@ -90,8 +90,8 @@ def compile_json(json_file):
         pass
     if type(json_object) is not dict:
         return
-    if "weav" not in json_object.keys():
-        # Compile only files that have weav key
+    if "weaver" not in json_object.keys():
+        # Compile only files that have weaver key
         return
 
     values = {}

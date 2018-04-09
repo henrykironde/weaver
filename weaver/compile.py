@@ -1,11 +1,11 @@
 from __future__ import absolute_import
 from __future__ import print_function
 
-from weav.lib.scripts import MODULE_LIST
+from weaver.lib.scripts import MODULE_LIST
 
 
 def compile():
-    print("Compiling weav scripts...")
+    print("Compiling weaver scripts...")
     MODULE_LIST(force_compile=True)
     print("done.")
 

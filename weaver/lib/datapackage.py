@@ -7,8 +7,8 @@ import re
 from builtins import input
 from time import sleep
 
-from weav.lib.defaults import HOME_DIR, ENCODING
-from weav.lib.scripts import SCRIPT_LIST
+from weaver.lib.defaults import HOME_DIR, ENCODING
+from weaver.lib.scripts import SCRIPT_LIST
 
 short_names = [script.name.lower() for script in SCRIPT_LIST()]
 
@@ -126,7 +126,7 @@ def create_json():
     http://specs.frictionlessdata.io/data-packages/#descriptor-datapackagejson
     Takes input from user via command line.
 
-    Usage: weav new_json
+    Usage: weaver new_json
     """
     contents = {}
     tableurls = {}
@@ -150,7 +150,7 @@ def create_json():
     contents['keywords'] = clean_input("keywords (separated by ';'): ",
                                        split_char=';', ignore_empty=True)
     contents['resources'] = []
-    contents['weav'] = "True"
+    contents['weaver'] = "True"
     contents['retriever_minimum_version'] = "2.0.dev"
     contents['encoding'] = clean_input("encoding: ", ignore_empty=True)
     if is_empty(clean_input("encoding: ", ignore_empty=True)): contents['encoding'] = ENCODING
@@ -172,7 +172,7 @@ def create_json():
             tableurls[table['name']] = table['url']
 
             # get table properties (dialect)
-            # refer weav.lib.table.Table
+            # refer weaver.lib.table.Table
             get_replace_columns(table['dialect'])
             get_nulls(table['dialect'])
             get_delimiter(table['dialect'])
@@ -392,7 +392,7 @@ def edit_json(json_file):
     """
     Edit existing datapackage.JSON script.
 
-    Usage: weav edit_json <script_name>
+    Usage: weaver edit_json <script_name>
     Note: Name of script is the dataset name.
     """
     try:

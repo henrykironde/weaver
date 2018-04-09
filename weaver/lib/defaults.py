@@ -1,14 +1,14 @@
 import os
 
-from weav._version import __version__
+from weaver._version import __version__
 
 VERSION = __version__
 COPYRIGHT = "Copyright (C) 2011-2016 Weecology University of Florida"
-REPO_URL = "https://raw.github.com/weecology/weav/"
+REPO_URL = "https://raw.github.com/weecology/weaver/"
 MASTER_BRANCH = REPO_URL + "master/"
 REPOSITORY = MASTER_BRANCH
 ENCODING = 'ISO-8859-1'
-HOME_DIR = os.path.expanduser('~/.weav/')
+HOME_DIR = os.path.expanduser('~/.weaver/')
 SCRIPT_SEARCH_PATHS = [
     "./",
     'scripts',

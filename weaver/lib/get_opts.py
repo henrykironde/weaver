@@ -4,11 +4,11 @@ standard_library.install_aliases()
 
 import argparse
 
-from weav.engines import engine_list
-from weav.lib.defaults import VERSION
+from weaver.engines import engine_list
+from weaver.lib.defaults import VERSION
 
 # Create the parser
-parser = argparse.ArgumentParser(prog="weav")
+parser = argparse.ArgumentParser(prog="weaver")
 
 # Add first level arguments
 parser.add_argument('-v', '--version', action='version', version=VERSION)
@@ -33,7 +33,7 @@ install_parser = subparsers.add_parser('join', help='integrate datasets using th
 # subparsers with Arguments
 # ...............................................................
 
-citation_parser.add_argument('dataset', help='weav citation or dataset citation', nargs='?', default=None)
+citation_parser.add_argument('dataset', help='weaver citation or dataset citation', nargs='?', default=None)
 trim_parser.add_argument('src', help='source data set name', default=None)
 trim_parser.add_argument('dst', help='destination file name', default=None)
 trim_parser.add_argument('attr', help='data set name', nargs='?', default=None)

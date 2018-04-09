@@ -13,7 +13,7 @@ current_platform = platform.system().lower()
 extra_includes = []
 
 __version__ = '1.0.0'
-with open(os.path.join("weav", "_version.py"), "w") as version_file:
+with open(os.path.join("weaver", "_version.py"), "w") as version_file:
     version_file.write("__version__ = " + "'" + __version__ + "'\n")
     version_file.close()
 
@@ -45,9 +45,9 @@ elif current_platform == "windows":
 
 
 packages = [
-    'weav.lib',
-    'weav.engines',
-    'weav',
+    'weaver.lib',
+    'weaver.engines',
+    'weaver',
 ]
 
 includes = [
@@ -71,12 +71,12 @@ excludes = [
     'Tkconstants', 'Tkinter', 'tcl', 'tk'
 ]
 
-setup(name='weav',
+setup(name='weaver',
       version=clean_version(__version__),
-      description='Data weav',
+      description='Data weaver',
       author='Ethan White',
       author_email='ethan@weecology.org',
-      url='https://github.com/weecology/weav',
+      url='https://github.com/weecology/weaver',
       classifiers=['Intended Audience :: Science/Research',
                    'License :: OSI Approved :: MIT License',
                    'Programming Language :: Python',
@@ -92,7 +92,7 @@ setup(name='weav',
 
       entry_points={
           'console_scripts': [
-              'weav = weav.__main__:main',
+              'weaver = weaver.__main__:main',
           ],
       },
       install_requires=[
@@ -119,10 +119,10 @@ setup(name='weav',
 #     else:
 #         bash_file = "/dev/null"
 #
-#     argcomplete_command = 'eval "$(register-python-argcomplete weav)"'
+#     argcomplete_command = 'eval "$(register-python-argcomplete weaver)"'
 #     with open(os.path.expanduser(bash_file), "a+") as bashrc:
 #         bashrc.seek(0)
-#         # register weav for arg-completion if not already registered
+#         # register weaver for arg-completion if not already registered
 #         # whenever a new shell is spawned
 #         if argcomplete_command not in bashrc.read():
 #             bashrc.write(argcomplete_command + "\n")
@@ -132,8 +132,8 @@ setup(name='weav',
 #     os.system(argcomplete_command)
 
 # try:
-#     from weav.compile import compile
-#     from weav.lib.repository import check_for_updates
+#     from weaver.compile import compile
+#     from weaver.lib.repository import check_for_updates
 #
 #     compile()
 #     check_for_updates(False)

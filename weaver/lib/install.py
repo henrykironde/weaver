@@ -3,14 +3,14 @@ from __future__ import print_function
 
 import os
 
-from weav.engines import choose_engine
-from weav.lib.defaults import DATA_DIR
-from weav.lib.scripts import SCRIPT_LIST
-from weav.lib.tools import name_matches
+from weaver.engines import choose_engine
+from weaver.lib.defaults import DATA_DIR
+from weaver.lib.scripts import SCRIPT_LIST
+from weaver.lib.tools import name_matches
 
 
 def _install(args, use_cache, debug, compile):
-    """Install scripts for weav."""
+    """Install scripts for weaver."""
     engine = choose_engine(args)
     engine.use_cache = use_cache
 
@@ -28,7 +28,7 @@ def _install(args, use_cache, debug, compile):
                     raise
     else:
         message = "The dataset \"{}\" isn't available in the Retriever. " \
-                  "Run weav.datasets()to list the currently available " \
+                  "Run weaver.datasets()to list the currently available " \
                   "datasets".format(args['dataset'])
         raise ValueError(message)
 

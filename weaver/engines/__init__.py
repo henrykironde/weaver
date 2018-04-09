@@ -1,5 +1,5 @@
 """Contains DBMS-specific Engine implementations."""
-from weav.lib.engine import Engine
+from weaver.lib.engine import Engine
 
 engines = [
     "postgres",
@@ -7,7 +7,7 @@ engines = [
 ]
 
 engine_module_list = [
-    __import__("weav.engines." + module, fromlist="engines")
+    __import__("weaver.engines." + module, fromlist="engines")
     for module in engines
     ]
 

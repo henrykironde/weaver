@@ -1,7 +1,7 @@
 import os
 
-from weav.lib.defaults import ENCODING
-from weav.lib.models import Engine, no_cleanup
+from weaver.lib.defaults import ENCODING
+from weaver.lib.models import Engine, no_cleanup
 
 
 class engine(Engine):

@@ -1,8 +1,8 @@
 import os
 from builtins import range
 
-from weav.lib.defaults import DATA_DIR
-from weav.lib.models import Engine, no_cleanup
+from weaver.lib.defaults import DATA_DIR
+from weaver.lib.models import Engine, no_cleanup
 
 
 class engine(Engine):

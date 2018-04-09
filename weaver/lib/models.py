@@ -4,6 +4,6 @@ This module contains basic class definitions for the Retriever platform.
 
 """
 
-from weav.lib.cleanup import *
-from weav.lib.engine import *
-from weav.lib.table import *
+from weaver.lib.cleanup import *
+from weaver.lib.engine import *
+from weaver.lib.table import *
