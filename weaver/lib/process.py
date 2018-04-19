@@ -19,9 +19,9 @@ class Processor(object):
         scripts_needed = []
 
 
-        for i in config["tables"]:
-            scripts_needed.append(i["dataset"])
-        print (set(scripts_needed))
+        # for i in config["tables"]:
+        #     scripts_needed.append(i["dataset"])
+        # print (set(scripts_needed))
 
         set()
 
