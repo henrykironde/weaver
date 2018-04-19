@@ -1,9 +1,6 @@
-"""Data Retriever Wizard
+"""Data Weaver Wizard
 
-Running this module directly will launch the download wizard, allowing the user
-to choose from all scripts.
-
-The main() function can be used for bootstrapping.
+Main entry for CLI
 
 """
 from __future__ import absolute_import
@@ -24,16 +21,15 @@ from weaver.lib.scripts import SCRIPT_LIST
 from weaver.lib.tools import name_matches, reset_retriever
 
 from weaver.lib.process import Processor
-encoding = ENCODING.lower()
-# sys removes the setdefaultencoding method at startup; reload to get it back
-reload(sys)
-if hasattr(sys, 'setdefaultencoding'):
-    sys.setdefaultencoding(encoding)
+# encoding = ENCODING.lower()
+# # sys removes the setdefaultencoding method at startup; reload to get it back
+# reload(sys)
+# if hasattr(sys, 'setdefaultencoding'):
+#     sys.setdefaultencoding(encoding)
 
 
 def main():
     """This function launches the weaver."""
-    sys.argv[1:] = [arg.lower() for arg in sys.argv[1:]]
     if len(sys.argv) == 1:
         # if no command line args are passed, show the help options
         parser.parse_args(['-h'])
