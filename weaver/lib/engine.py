@@ -20,7 +20,8 @@ import csv
 import re
 import time
 from urllib.request import urlretrieve
-from weaver.lib.scripts import open_fr, open_fw, open_csvw
+from retriever.lib.tools import open_fr, open_fw, open_csvw
+# from weaver.lib.scripts import open_fr, open_fw, open_csvw
 from weaver.lib.defaults import DATA_SEARCH_PATHS, DATA_WRITE_PATH
 from weaver.lib.cleanup import no_cleanup
 from weaver.lib.warning import Warning

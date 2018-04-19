@@ -6,7 +6,7 @@ import os
 from weaver.engines import choose_engine
 from weaver.lib.defaults import DATA_DIR
 from weaver.lib.scripts import SCRIPT_LIST
-from weaver.lib.tools import name_matches
+from weaver.lib.engine_tools import name_matches
 
 
 def _install(args, use_cache, debug, compile):

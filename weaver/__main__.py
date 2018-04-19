@@ -18,7 +18,7 @@ from weaver.lib.defaults import sample_script, CITATION, ENCODING
 from weaver.lib.get_opts import parser
 from weaver.lib.repository import check_for_updates
 from weaver.lib.scripts import SCRIPT_LIST
-from weaver.lib.tools import name_matches, reset_retriever
+from weaver.lib.engine_tools import name_matches, reset_retriever
 
 from weaver.lib.process import Processor
 # encoding = ENCODING.lower()
