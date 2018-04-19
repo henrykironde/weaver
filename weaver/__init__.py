@@ -1,7 +1,6 @@
-"""Data Retriever
+"""Data weaver
 
-This package contains a framework for creating and running scripts designed to
-download published ecological data, and store the data in a database.
+This package contains a framework for integrating datasets
 
 """
 from weaver.lib.tools import set_proxy, create_home_dir
