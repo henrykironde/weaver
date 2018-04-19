@@ -16,7 +16,8 @@ from os.path import join, isfile, getmtime, exists, abspath
 from pkg_resources import parse_version
 
 from weaver.lib.defaults import SCRIPT_SEARCH_PATHS, VERSION, ENCODING, SCRIPT_WRITE_PATH
-from weaver.lib.compile import compile_json
+# from weaver.lib.compile import compile_json
+from retriever.lib.load_json import read_json
 import retriever as rt
 
 def MODULE_LIST(force_compile=False):

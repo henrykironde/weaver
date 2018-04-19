@@ -3,7 +3,7 @@ dist/
 build/
 connections.config
 sqlite.db*
-retriever.egg-info
+weaver.egg-info
 apidocs
 .DS_Store
 .cache/*
