@@ -8,3 +8,4 @@ apidocs
 .DS_Store
 .cache/*
 scripts/*.py
+.idea

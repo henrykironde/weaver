@@ -10,43 +10,28 @@ from functools import reduce
 from weaver.lib.cleanup import *
 
 
-class TableMain(object):
+class Dataset(object):
     """Refactor table moddule since raster, vector and tabular data
 
     all have some common table features
     """
-    def __init__(self, name=None, url=None):
+    def __init__(self, name=None):
         self.name = name
-        self.url = url
 
 
-class Table(object):
+class TabularDataset(object):
     """Information about a database table."""
 
-    def __init__(self, name=None, url=None, pk=True,
-                 contains_pk=False, delimiter=None,
-                 header_rows=1, column_names_row=1,
-                 fixed_width=False, cleanup=Cleanup(),
-                 record_id=0,
+    def __init__(self, name=None,
                  columns=[],
-                 replace_columns=[],
-                 missingValues=None,
-                 cleaned_columns=False, **kwargs):
+                 dataset_type="TabularDataset",
+                 database_name=None,
+                 **kwargs):
 
         self.name = name
-        self.url = url
-        self.pk = pk
-        self.contains_pk = contains_pk
-        self.delimiter = delimiter
-        self.header_rows = header_rows
-        self.column_names_row = column_names_row
-        self.fixed_width = fixed_width
-        self.cleanup = cleanup
-        self.record_id = record_id
         self.columns = columns
-        self.replace_columns = replace_columns
-        self.missingValues = missingValues
-        self.cleaned_columns = cleaned_columns
+        self.dataset_type = dataset_type
+        self.database_name = database_name
 
         for key in kwargs:
             if hasattr(self, key):
@@ -54,12 +39,7 @@ class Table(object):
             else:
                 setattr(self, key, kwargs[key])
 
-        if hasattr(self, 'schema'):
-            self.add_schema()
-        if hasattr(self, 'dialect'):
-            self.add_dialect()
-
-        TableMain.__init__(self, self.name, self.url)
+        Dataset.__init__(self, self.name)
 
     def add_dialect(self):
         for key, val in self.dialect.items():
@@ -258,7 +238,7 @@ class Table(object):
         return columns
 
 
-class TableRaster(TableMain):
+class RasterDataset(Dataset):
     """Raster table implementation"""
     def __init__(self, **kwargs):
         self.name = None
@@ -278,7 +258,7 @@ class TableRaster(TableMain):
                 setattr(self, key, kwargs[key])
 
 
-class TableVector(TableMain):
+class VectorDataset(Dataset):
     """Vector table implementation"""
 
     def __init__(self, name=None, **kwargs):
@@ -328,7 +308,7 @@ class TableVector(TableMain):
 
 
 myTables = {
-    "vector": TableVector,
-    "raster": TableRaster,
-    "tabular": Table,
+    "vector": VectorDataset,
+    "raster": RasterDataset,
+    "tabular": TabularDataset,
 }

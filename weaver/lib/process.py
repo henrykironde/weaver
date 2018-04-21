@@ -11,7 +11,7 @@ from weaver.lib.templates import TEMPLATES
 
 
 class Processor(object):
-    def __init__(self, name=None, dictt =None):
+    def __init__(self, name=None, dict =None):
         name = name
         config = dictt
         scripts = []

@@ -27,7 +27,7 @@ def read_json(json_file, debug=False):
         json_object = json.load(open_fr(json_file))
     except ValueError:
         pass
-    if type(json_object) is dict and "resources" in json_object.keys():
+    if type(json_object) is dict and "result" in json_object.keys():
 
         # Note::formats described by frictionlessdata data may need to change
         tabular_formats = ["csv", "tab"]
