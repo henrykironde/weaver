@@ -6,8 +6,8 @@
   },
   "main_file": {
     "table_type":"raster",
-    "dataset": "mammal-masses",
-    "table": "mammalmasses",
+    "database_name": "mammal-masses",
+    "table_name": "mammalmasses",
     "fields": [
       "comb_mass_g",
       "continent",
@@ -28,8 +28,8 @@
   },
   "tables": [
     {
-      "dataset": "mammal_community_db",
-      "table": "sites",
+      "database_name": "mammal_community_db",
+      "table_name": "sites",
       "table_type":"tabular",
       "fields": [
         "site_id",
@@ -54,8 +54,8 @@
       ]
     },
     {
-      "dataset": "mammal_community_db",
-      "table": "species",
+      "database_name": "mammal_community_db",
+      "table_name": "species",
       "table_type":"tabular",
       "fields": [
         "species_id",
@@ -66,8 +66,8 @@
       ]
     },
     {
-      "dataset": "mammal-masses",
-      "table": "mammalmasses",
+      "database": "mammal-masses",
+      "table_name": "mammalmasses",
       "table_type":"tabular",
       "fields": [
         "comb_mass_g",

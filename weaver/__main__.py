@@ -75,8 +75,7 @@ def main():
 
         # get tables from scripts
         tables_items = json_object["tables"]
-        Processor(name="henry", dictt=json_object)
-
+        Processor(name="henry", dataobj=json_object)
 
         # from weaver.lib.scripts import MODULE_LIST
         # for items in MODULE_LIST():

@@ -133,13 +133,7 @@ class BasicTextTemplate(Script):
                 self.tables[i_table].record_id = 0
 
 
-class HtmlTableTemplate(Script):
-    """Script template for parsing data in HTML tables."""
-
-    pass
-
 
 TEMPLATES = {
     "default": BasicTextTemplate,
-    "html_table": HtmlTableTemplate
 }
