@@ -1,0 +1,44 @@
+{
+    "name": "A2014037040500.L2_LAC.SeAHABS",
+    "url": "link to where the data is stored",
+    "description": "--A good description for the dataset",
+    "license": "--A license",
+    "keywords": [
+        "test",
+        "data science",
+        "spatial-data"
+    ],
+    "citation": "--citation for the dataset",
+    "version": "--The version of the dataset",
+    "homepage": "--The home page of the data",
+    "resources": [
+        {
+            "band_name": "11",
+            "description": "",
+            "no_data_value": null,
+            "min": null,
+            "max": null,
+            "scale": null,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        }
+    ],
+    "projection": "",
+    "driver": "HDF4Image",
+    "transform": {
+        "xOrigin": 0.0,
+        "pixelWidth": 1.0,
+        "rotation_2": 0.0,
+        "yOrigin": 0.0,
+        "rotation_4": 0.0,
+        "pixelHeight": 1.0
+    },
+    "colums": 423,
+    "rows": 2040,
+    "band_count": 1
+}

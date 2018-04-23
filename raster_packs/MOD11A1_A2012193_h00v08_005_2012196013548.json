@@ -1,0 +1,209 @@
+{
+    "name": "MOD11A1.A2012193.h00v08.005.2012196013548",
+    "url": "link to where the data is stored",
+    "description": "--A good description for the dataset",
+    "license": "--A license",
+    "keywords": [
+        "test",
+        "data science",
+        "spatial-data"
+    ],
+    "citation": "--citation for the dataset",
+    "version": "--The version of the dataset",
+    "homepage": "--The home page of the data",
+    "resources": [
+        {
+            "band_name": "LST_Day_1km",
+            "description": "Daily daytime 1km grid Land-surface Temperature",
+            "no_data_value": 0.0,
+            "min": null,
+            "max": null,
+            "scale": 0.02,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "QC_Day",
+            "description": "Quality control for daytime LST and emissivity",
+            "no_data_value": null,
+            "min": 2.0,
+            "max": 3.0,
+            "scale": null,
+            "color_table": null,
+            "statistics": {
+                "minimum": 2.0,
+                "maximum": 3.0,
+                "mean": 2.9999965277778,
+                "stddev": 0.0018633867461189
+            }
+        },
+        {
+            "band_name": "Day_view_time",
+            "description": "Time of daytime Land-surface Temperature observation",
+            "no_data_value": 255.0,
+            "min": null,
+            "max": null,
+            "scale": 0.1,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "Day_view_angl",
+            "description": "View zenith angle of daytime Land-surface Temperature",
+            "no_data_value": 255.0,
+            "min": null,
+            "max": null,
+            "scale": 1.0,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "LST_Night_1km",
+            "description": "Daily nighttime 1km grid Land-surface Temperature",
+            "no_data_value": 0.0,
+            "min": null,
+            "max": null,
+            "scale": 0.02,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "QC_Night",
+            "description": "Quality control for nighttime LST and emissivity",
+            "no_data_value": null,
+            "min": 2.0,
+            "max": 3.0,
+            "scale": null,
+            "color_table": null,
+            "statistics": {
+                "minimum": 2.0,
+                "maximum": 3.0,
+                "mean": 2.9999965277778,
+                "stddev": 0.0018633867461189
+            }
+        },
+        {
+            "band_name": "Night_view_time",
+            "description": "Time of nighttime Land-surface Temperature observation",
+            "no_data_value": 255.0,
+            "min": null,
+            "max": null,
+            "scale": 0.1,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "Night_view_angl",
+            "description": "View zenith angle of nighttime Land-surface Temperature",
+            "no_data_value": 255.0,
+            "min": null,
+            "max": null,
+            "scale": 1.0,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "Emis_31",
+            "description": "Band 31 emissivity",
+            "no_data_value": 0.0,
+            "min": null,
+            "max": null,
+            "scale": 0.002,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "Emis_32",
+            "description": "Band 32 emissivity",
+            "no_data_value": 0.0,
+            "min": null,
+            "max": null,
+            "scale": 0.002,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "Clear_day_cov",
+            "description": "day clear-sky coverage",
+            "no_data_value": 0.0,
+            "min": null,
+            "max": null,
+            "scale": 0.0005,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        },
+        {
+            "band_name": "Clear_night_cov",
+            "description": "night clear-sky coverage",
+            "no_data_value": 0.0,
+            "min": null,
+            "max": null,
+            "scale": 0.0005,
+            "color_table": null,
+            "statistics": {
+                "minimum": 0.0,
+                "maximum": 0.0,
+                "mean": 0.0,
+                "stddev": -1.0
+            }
+        }
+    ],
+    "projection": "PROJCS[\"unnamed\",GEOGCS[\"Unknown datum based upon the custom spheroid\",DATUM[\"Not specified (based on custom spheroid)\",SPHEROID[\"Custom spheroid\",6371007.181,0]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433]],PROJECTION[\"Sinusoidal\"],PARAMETER[\"longitude_of_center\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"Meter\",1]]",
+    "driver": "HDF4Image",
+    "transform": {
+        "xOrigin": -20015109.355797,
+        "pixelWidth": 926.6254331383326,
+        "rotation_2": 0.0,
+        "yOrigin": 1111950.519767,
+        "rotation_4": 0.0,
+        "pixelHeight": -926.6254331391667
+    },
+    "colums": 1200,
+    "rows": 1200,
+    "band_count": 1
+}
