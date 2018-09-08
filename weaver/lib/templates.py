@@ -20,7 +20,7 @@ class Script(object):
 
     def __init__(self, title="", description="", name="", urls=dict(),
                  tables=dict(), ref="", public=True, addendum=None,
-                 citation="Not currently available",
+                 citation=["Not currently available"],
                  licenses=[{'name': None}],
                  retriever_minimum_version="",
                  version="", encoding="", message="", **kwargs):
