@@ -37,7 +37,9 @@ def main():
 
         if args.command == 'help':
             parser.parse_args(['-h'])
-
+        if args.command == 'update':
+            check_for_updates(False)
+            return
         if args.command == 'citation':
             if args.dataset is None:
                 # get the citation of weaver

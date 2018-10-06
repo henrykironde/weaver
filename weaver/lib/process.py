@@ -14,33 +14,47 @@ from weaver.lib.templates import TEMPLATES
 class Processor(object):
     def make_sql(dataset):
 
-        processed_as= {}
+        processed_as = {}
         processed_as[dataset.main_file["path"]] = "t1"
         main_sql_join = ""
+        all_fields = []
+        string_field =""
         if "fields" in dataset.main_file:
             if not dataset.main_file["fields"]:
-                main_sql_join = "\nSELECT * INTO {res} \nFROM {main_table}  AS  t1 ".format(main_table=dataset.main_file["path"],
-                                                                                            res="{db}.{table_name}")
+                main_sql_join = "\nSELECT *  \nFROM {main_table}  AS  t1 " \
+                                "".format(main_table=dataset.main_file["path"]
+                                          )
             else:
                 all_fields = dataset.main_file["fields"]
-                string_field = ', '.join(str(e) for e in all_fields)
+                all_fields = [ "t1." + itemkk for itemkk in dataset.main_file["fields"]]
+                # string_field = ', '.join(str(e) for e in all_fields) put at the end
                 # todo fake
                 # fake_f += "{m_one_}.i" for i in __{all_flds}_
-                main_sql_join = "\nSELECT {all_flds} INTO {res} \nFROM {main_table} AS t1 ".format(all_flds=string_field,
-                                                                                             main_table=dataset.main_file["path"],
-                                                                                                   res="{db}.{table_name}"
-                                                                                                        )
+                main_sql_join = "\nSELECT {all_fls} \nFROM {main_table} AS t1 " \
+                                "".format(all_fls="{all_flds}",
+                                          main_table=dataset.main_file["path"])
         for counter, tabletojoin in enumerate(dataset.join):
             as_tables = "as_" + str(counter)
+            dot_tablevalue = as_tables + "."
             processed_as[tabletojoin["table"]] = as_tables
 
             if "fields_to_use" in tabletojoin:
                 if tabletojoin["fields_to_use"]:
+                    all_fields += [dot_tablevalue + itemk for itemk in tabletojoin["fields_to_use"]]
                     f_fields_used = tabletojoin["fields_to_use"]
-                else:
-                    # Use valuse of fields in tables or *, for now lets use *
-                    f_fields_used = ["*"]
+            else:
+                # Use valuse of fields in tables or *, for now lets use *
+                f_fields_used = ["*"]
+
+            # if "fields_to_use" in tabletojoin:
+            #     if tabletojoin["fields_to_use"]:
+            #         f_fields_used = tabletojoin["fields_to_use"]
+            #     else:
+            #         # Use valuse of fields in tables or *, for now lets use *
+            #         f_fields_used = ["*"]
+
             str_f_fields_used = ', '.join(str(e) for e in f_fields_used)
+            # str_f_fields_used = dot_tablevalue + ', {dot_table}'.format(dot_table=dot_tablevalue).join(str(e) for e in f_fields_used)
 
             left_join = "\n\nLEFT OUTER JOIN \n(SELECT {fields_used}  \n\tFROM {t2_j}) AS {tsb} ".format(
                 t2_j=tabletojoin["table"],
@@ -75,7 +89,11 @@ class Processor(object):
             main_sql_join += left_join
             # print(left_join)
 
+        str_allfields = ', '.join(str(e) for e in all_fields)
         print()
-        print(main_sql_join)
+        print(main_sql_join.format(all_flds=str_allfields))
+        print(all_fields)
+        print( str_allfields)
+        "\nSELECT * INTO {res}".format(res="{db}.{table_name}")
 
         exit()
