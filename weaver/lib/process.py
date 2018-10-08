@@ -6,7 +6,6 @@ from __future__ import print_function
 
 class Processor(object):
     def make_sql(dataset):
-
         processed_as = {}
         processed_as[dataset.main_file["path"]] = "t1"
         main_sql_join = ""
@@ -75,28 +74,28 @@ class Processor(object):
                     str_2_j_on = "\nAND \n".join(str(e) for e in string_3_on_list + string_b4_list)
                     left_join += str_2_j_on
                     main_sql_join += left_join
-
-        # Process the main file and create the query string for all the required fields
-        if "fields" in dataset.main_file:
-            if not dataset.main_file["fields"]:
-                bmain_sql_join = "\nSELECT * \nFROM {main_table}  AS  t1 " \
-                                 "".format(main_table=dataset.main_file["path"])
-            else:
-                all_fields = dataset.main_file["fields"]
-                all_fields = ["t1." + itemkk for itemkk in dataset.main_file["fields"]]
-                bmain_sql_join = "\nSELECT {all_fls} \nFROM {main_table} AS t1 " \
-                                 "".format(all_fls="{all_flds}", main_table=dataset.main_file["path"])
-                if make_temp:
-                    # ["latitude", "longitude"]
-                    y = dataset.main_file["lat_long"][0]
-                    x = dataset.main_file["lat_long"][1]
-
-                    temp_fields = ["temp." + itemkk for itemkk in dataset.main_file["fields"]]
-                    temp_fields_string = ', '.join(str(e) for e in temp_fields) + ", "
-                    temp_geom_value = temp_fields_string + " (ST_SetSRID(ST_MakePoint(cast(temp.{x1} as Numeric(10, 4)), cast(temp.{y1} as Numeric(10, 4))), 4326)) as the_geom".format(
-                        x1=x, y1=y)
-                    bmain_sql_join = "\nSELECT * FROM (SELECT " + temp_geom_value + " FROM {main_table} temp) t1"
-
-        str_allfields = ', '.join(str(e) for e in all_fields)
-
-        return bmain_sql_join +" "+ main_sql_join.format(all_flds=str_allfields)
+        #
+        # # Process the main file and create the query string for all the required fields
+        # if "fields" in dataset.main_file:
+        #     if not dataset.main_file["fields"]:
+        #         bmain_sql_join = "\nSELECT * \nFROM {main_table}  AS  t1 " \
+        #                          "".format(main_table=dataset.main_file["path"])
+        #     else:
+        #         all_fields = dataset.main_file["fields"]
+        #         all_fields = ["t1." + itemkk for itemkk in dataset.main_file["fields"]]
+        #         bmain_sql_join = "\nSELECT {all_fls} \nFROM {main_table} AS t1 " \
+        #                          "".format(all_fls="{all_flds}", main_table=dataset.main_file["path"])
+        #         if make_temp:
+        #             # ["latitude", "longitude"]
+        #             y = dataset.main_file["lat_long"][0]
+        #             x = dataset.main_file["lat_long"][1]
+        #
+        #             temp_fields = ["temp." + itemkk for itemkk in dataset.main_file["fields"]]
+        #             temp_fields_string = ', '.join(str(e) for e in temp_fields) + ", "
+        #             temp_geom_value = temp_fields_string + " (ST_SetSRID(ST_MakePoint(cast(temp.{x1} as Numeric(10, 4)), cast(temp.{y1} as Numeric(10, 4))), 4326)) as the_geom".format(
+        #                 x1=x, y1=y)
+        #             bmain_sql_join = "\nSELECT * FROM (SELECT " + temp_geom_value + " FROM {main_table} temp) t1"
+        #
+        # str_allfields = ', '.join(str(e) for e in all_fields)
+        #
+        # return bmain_sql_join +" "+ main_sql_join.format(all_flds=str_allfields)

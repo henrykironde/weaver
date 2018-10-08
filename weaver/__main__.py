@@ -121,18 +121,15 @@ def main():
             if scripts:
                 for dataset in scripts:
                     print("=> Integrating", dataset.name)
-                    dataset.downloadx(engine, debug=debug)
-                    dataset.engine.final_cleanup()
-
-                    # try:
-                    #     dataset.download(engine, debug=debug)
-                    #     dataset.engine.final_cleanup()
-                    # except KeyboardInterrupt:
-                    #     pass
-                    # except Exception as e:
-                    #     print(e)
-                    #     if debug:
-                    #         raise
+                    try:
+                        dataset.integrate(engine, debug=debug)
+                        dataset.engine.final_cleanup()
+                    except KeyboardInterrupt:
+                        pass
+                    except Exception as e:
+                        print(e)
+                        if debug:
+                            raise
 
 
 def print_info(all_scripts, keywords_license=False):
