@@ -9,11 +9,12 @@ from __future__ import print_function
 import os
 import sys
 
+from retriever.engines import engine_list, choose_engine
 from weaver.lib.datasets import datasets,  dataset_names, license
 from weaver.lib.defaults import CITATION, SCRIPT_SEARCH_PATHS
 from weaver.lib.engine_tools import name_matches
 from weaver.lib.get_opts import parser
-from weaver.lib.process import Processor
+
 from weaver.lib.repository import check_for_updates
 from weaver.lib.scripts import SCRIPT_LIST, get_script
 
@@ -102,12 +103,26 @@ def main():
 
             return
         if args.command == 'join':
+            engine = choose_engine(args.__dict__)
+
+            if hasattr(args, 'debug') and args.debug:
+                debug = True
+            else:
+                debug = False
+                sys.tracebacklimit = 0
+
+            if hasattr(args, 'debug') and args.not_cached:
+                engine.use_cache = False
+            else:
+                engine.use_cache = True
+
             if args.config is not None:
                 scripts = name_matches(script_list, args.config)
             if scripts:
                 for dataset in scripts:
                     print("=> Integrating", dataset.name)
-                    Processor.make_sql(dataset)
+                    dataset.downloadx(engine, debug=debug)
+                    dataset.engine.final_cleanup()
 
                     # try:
                     #     dataset.download(engine, debug=debug)

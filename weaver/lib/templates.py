@@ -9,6 +9,7 @@ import shutil
 from weaver.lib.models import *
 from weaver.engines import choose_engine
 from weaver.lib.defaults import DATA_DIR
+from weaver.lib.process import Processor
 
 
 class Script(object):
@@ -50,7 +51,7 @@ class Script(object):
             desc += "\n" + self.reference_url()
         return desc
 
-    def download(self, engine=None, debug=False):
+    def downloadf(self, engine=None, debug=False):
         """Generic function to prepare for installation or download."""
         self.engine = self.checkengine(engine)
         self.engine.debug = debug
@@ -108,11 +109,20 @@ class BasicTextTemplate(Script):
         for key in kwargs:
             setattr(self, key, kwargs[key])
 
-    def download(self, engine=None, debug=False, ):
+    def downloadx(self, engine=None, debug=False, ):
         """Defines the download processes for scripts that utilize the default
         pre processing steps provided by the retriever."""
-        Script.download(self, engine, debug)
-        print ( "now we need to do the join, mind  you we have created the result table")
+        Script.downloadf(self, engine, debug)
+        x = Processor.make_sql(self)
+        result_db = self.name
+        result_table = self.result["table"]
+        finale = "SELECT * into {result_dbi}.{result_tablei} ({xi})".format(result_dbi= result_db, result_tablei=result_table, xi=x)
+        print (finale)
+        exit()
+        # Select * into self.
+        self.engine.execute(x)
+        print(x)
+        print ( "now we need to do the join, mind you we have created the result table")
         # make file name mandatory for simplicity
         #
         # for i_table, table_obj in self.tables.items():

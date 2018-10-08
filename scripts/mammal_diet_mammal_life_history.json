@@ -99,6 +99,7 @@
   "join": [
     {
       "table": "mammal_diet.diet",
+      "table_type": "tabular",
       "fields_to_use": [
         "taxonid",
         "taxonorder",
