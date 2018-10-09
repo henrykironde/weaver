@@ -64,7 +64,7 @@
     {
       "table": "bioclim.bio1",
       "table_type": "raster",
-       "fields_to_use": [],
+      "fields_to_use": [],
       "join_ocn": {
         "common_field": [],
         "mammal_community_db.sites": ["latitude", "longitude"],
