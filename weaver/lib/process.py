@@ -121,45 +121,19 @@ class Processor(object):
 
                     temp_fields = ["temp." + item_k for item_k in dataset.main_file["fields"]]
                     temp_fields_string = ', '.join(str(e) for e in temp_fields) + ", "
-                    """
-                    ST_PointFromText('POINT(-71.064544 42.28787)', 4326)
 
-                    cast(temp.{x1} as varchar)
+                    temp_geom_value = temp_fields_string + "ST_PointFromText('POINT(" \
+                                      "cast(temp.{x1} as varchar) " \
+                                      "cast(temp.{y1} as varchar))', " \
+                                      "4326) as the_geom ".format(x1=x, y1=y)
 
-                    SELECT
-                       t.x,
-                       t.y,
-                       d.g
-                    FROM
-                      csample.data_copy t
-
-                    LEFT outer JOIN
-                    (
-                    SELECT
-                       id,
-                       x,
-                       y,
-                     --ST_PointFromText('POINT(-71.064544 42.28787)', 4326)
-                     --ST_PointFromText('POINT( cast(data_copy.x as varchar) cast(data_copy.x as varchar))', 4326)
-                      CONCAT(  x, ' ', y) as g
-                    FROM
-                      csample.data_copy tt
-                        where  y is not NULL ) d
-                        on t.id = d.id
-
-                    """
-
-                    temp_geom_value = temp_fields_string + "(ST_SetSRID(ST_MakePoint(cast(temp.{x1} as Numeric(10, 4)), cast(temp.{y1} as Numeric(10, 4))), 4326)) as the_geom".format(
-                        x1=x, y1=y)
-                    # pivot_query = "\nSELECT * FROM (SELECT " + temp_geom_value + " FROM {main_table} temp) t1"
-                    pivot_query = "\nSELECT {all_flds} into {res} FROM (SELECT" + temp_geom_value + " FROM {main_table} temp) t1". \
+                    pivot_query = "\nSELECT {all_flds} into {res} " \
+                                  "\nFROM (SELECT " + temp_geom_value + \
+                                  "\nFROM {main_table} temp) {table_m}". \
                         format(all_flds="{all_flds}", main_table=dataset.main_file["path"],
-                               res="{result_dbi}.{result_tablei}")
+                               res="{result_dbi}.{result_tablei}",
+                               table_m=as_processed_table[main_table_path])
 
-        str_allfields = ', '.join(str(e) for e in all_fields)
-        # print(pivot_query)
-        m = query_statement.format(all_flds=str_allfields)
-
-
-
-        return pivot_query +" "+ m
+        str_4fields = ', '.join(str(e) for e in all_fields)
+        stm = query_statement.format(all_flds=str_4fields)
+        return pivot_query + " " + stm

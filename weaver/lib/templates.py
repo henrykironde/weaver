@@ -117,20 +117,21 @@ class BasicTextTemplate(Script):
         # result_db = self.name
         result_db = engine.database_name()
         result_table = self.result["table"]
-        print( sql_statement.format(result_dbi=result_db, result_tablei=result_table))
-        exit()
-        # # result_db = self.name
-        # result_db = engine.database_name()
-        # result_table = self.result["table"]
-        # # finale_query = "SELECT * into {result_dbi}.{result_tablei} ({stm})".format(result_dbi=result_db,
-        # #                                                                            result_tablei=result_table,
-        # #                                                                            stm=sql_statement)
-        # finale_query = "SELECT {f} into {result_dbi}.{result_tablei} ".format(result_dbi=result_db,
-        #                                                                            result_tablei=result_table,
-        #                                                                       f=fields_string)
-        # print(finale_query + "("+sql_statement+")")
-        # exit()
-        # self.engine.execute(finale_query +  sql_statement)
+        db_table_name = "{db_name}.{table_name}".format(db_name=result_db, table_name=result_table)
+        drop_query = self.engine.drop_statement("TABLE", db_table_name)
+        join_query = sql_statement.format(result_dbi=result_db, result_tablei=result_table)
+        try:
+            self.engine.execute(drop_query)
+        except:
+            pass
+        try:
+            self.engine.execute(join_query)
+        except Exception as e:
+            try:
+                self.connection.rollback()
+            except Exception as _:
+                pass
+            print(e)
 
 
 TEMPLATES = {
