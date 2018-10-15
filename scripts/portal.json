@@ -1,0 +1,147 @@
+{
+  "name": "mammal-community-masses",
+  "version": "1.0.0",
+  "citation": [
+    {
+      "mammal-masses": "Felisa A. Smith, S. Kathleen Lyons, S. K. Morgan Ernest, Kate E. Jones, Dawn M. Kaufman, Tamar Dayan, Pablo A. Marquet, James H. Brown, and John P. Haskell. 2003. Body mass of late Quaternary mammals. Ecology 84:3403.",
+      "portal": "S. K. Morgan Ernest, Thomas J. Valone, and James H. Brown. 2009. Long-term monitoring and experimental manipulation of a Chihuahuan Desert ecosystem near Portal, Arizona, USA. Ecology 90:1708."
+    }
+  ],
+  "description": "Integrated portal collected data with species information",
+  "retriever-datasets": [
+    "portal"
+  ],
+  "keywords": [
+    "mammals",
+    "masses",
+    "size"
+  ],
+  "licenses":
+    {
+      "mammal-community-db": ["CC0-1.0"],
+      "mammal-masses": ["CC0-1.0"]
+    },
+  "result": {
+    "dataset": "mammal-community-masses",
+    "table": "masses",
+    "fields": []
+  },
+  "main_file": {
+    "path": "portal.main",
+    "database_name": "portal",
+    "table_name": "main",
+    "table_type": "tabular",
+      "fields": [
+        "recordid",
+        "mo",
+        "dy",
+        "period",
+        "yr",
+        "plot",
+        "note1",
+        "stake",
+        "species",
+        "sex",
+        "age",
+        "reprod",
+        "vagina",
+        "testes",
+        "pregnant",
+        "nipples",
+        "hfl",
+        "lactation",
+        "wgt",
+        "tag",
+        "note2",
+        "ltag",
+        "note3",
+        "prevlet",
+        "prevrt",
+        "nestdir",
+        "neststk",
+        "note4",
+        "note5"
+      ]
+  },
+  "tables": [
+    {
+      "database_name": "portal",
+      "table_name": "plots",
+      "table_type": "tabular",
+      "fields": [
+        "plot_id",
+        "plot_type"
+      ]
+    },
+    {
+      "database_name": "portal",
+      "table_name": "species",
+      "table_type": "tabular",
+      "fields": [
+        "species_id",
+        "genus",
+        "species",
+        "taxa"
+      ]
+    },
+    {
+      "database_name": "mammal-masses",
+      "table_name": "mammalmasses",
+      "table_type": "tabular",
+      "fields": [
+        "record_id",
+        "continent",
+        "status",
+        "sporder",
+        "family",
+        "genus",
+        "species",
+        "log_mass_g",
+        "comb_mass_g",
+        "reference"
+      ]
+    }
+  ],
+  "join": [
+    {
+      "table": "mammal_community_db.sites",
+       "fields_to_use": [
+         "site_id",
+         "reference_id",
+         "location",
+         "country",
+         "state",
+         "latitude",
+         "longitude",
+         "uncertainty_radius",
+         "elevation_low",
+         "elevation_high",
+         "habitat_description",
+         "habitat_code",
+         "abundance_data_present",
+         "abundance_data_format",
+         "spatial_extent"
+       ],
+      "join_ocn": {
+        "common_field": ["site_id"],
+        "mammal_community_db.communities": ["site_id"],
+        "mammal_community_db.sites": ["site_id"]
+      }
+    },
+    {
+       "table": "portal.species",
+       "fields_to_use": [
+        "species_id",
+        "family",
+        "genus",
+        "species",
+        "species_level"
+      ],
+      "join_ocn": {
+        "common_field": ["species_id"],
+        "mammal_community_db.communities": ["species_id"],
+        "mammal_community_db.species": ["species_id"]
+      }
+    }
+  ]
+}
