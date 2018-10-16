@@ -13,7 +13,21 @@ def make_sql(dataset):
     as_processed_table = OrderedDict([(main_table_path, "T1")])
     query_statement = ""
     all_fields = []
+    unique_f = set()
+    # >> > a = set('abcde')
+    # >> > l = ['f', 'g']
+    # >> > a |= set(l)
+    # if "fields" in dataset.result and dataset.result["fields"]:
+    #     all_fields += dataset.result["fields"]
+    # else:
+    #     all_fields += dataset.main_file["fields"]
     make_temp = False
+
+    if "fields" in dataset.main_file:
+        if dataset.main_file["fields"]:
+            all_fields += [as_processed_table[main_table_path] + "." + item_f
+                          for item_f in dataset.main_file["fields"]]
+            unique_f |= set(dataset.main_file["fields"])
 
     # Process all tables that are to be joined
     # and the fields that are required
@@ -36,7 +50,10 @@ def make_sql(dataset):
                     db_table_name= table_dict['database_name'] + '.' + table_dict['table_name']
                     if db_table_name == table2join['table']:
                         fields_used = table_dict['fields']
-        all_fields += [as_tables_dot + field_name for field_name in fields_used]
+                        continue
+
+        all_fields += [as_tables_dot + field_name for field_name in fields_used if field_name  not in unique_f]
+        unique_f |= set(fields_used)
         fields_string = ', '.join(str(e) for e in fields_used)
 
         if "table_type" in table2join:
@@ -51,14 +68,23 @@ def make_sql(dataset):
                             "\n".format(table_i=table2join["table"], tablei_as=as_tables)
                 query_statement += left_join
             elif table2join["table_type"] == "raster":
+                if fields_string.strip() == "":
+                    fields_string +=  " rast As rast "
+                else:
+                    fields_string += ", rast As rast "
                 make_temp = True
+                # ["latitude", "longitude"] [y,x]
+                y = dataset.result["lat_long"][0]
+                x = dataset.result["lat_long"][1]
                 left_join = "\nLEFT OUTER JOIN " \
                             "\n\t(SELECT {fields_used} " \
                             "\n\tFROM {table_j}) AS {table_j_as} " \
                             "".format(table_j=table2join["table"],
                                       table_j_as=as_tables,
                                       fields_used=fields_string)
-                left_join += "\nON ST_Intersects(" + as_tables + ".rast, ST_PointFromText(FORMAT('POINT(%s %s)', cast(longitude as varchar), cast(latitude as varchar)), 4326))\n"
+                left_join += "\nON ST_Intersects(" + as_tables + ".rast, ST_PointFromText(FORMAT('POINT(%s %s)', cast("+ x + "as varchar), cast("+ y +"as varchar)), 4326))\n"
+                where_sql = "\nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%".format(latitude=y, longitude=x)
+                left_join += where_sql
                 query_statement += left_join
             else:
                 # "table_type" is tabular
@@ -105,27 +131,27 @@ def make_sql(dataset):
 
     # Process the main file and create the query string for all the required fields
     if "fields" in dataset.main_file:
-        if not dataset.main_file["fields"]:
-            pivot_query = "\nSELECT {al} INTO {res} " \
-                          "\nFROM {main_table} AS {table_m} " \
-                          "".format(main_table=dataset.main_file["path"],
-                                    al=', '.join(str(e) for e in all_fields),
-                                    res="{result_dbi}.{result_tablei}",
-                                    table_m=as_processed_table[main_table_path])
-        else:
-            # all_fields = dataset.main_file["fields"]
-            all_fields += [as_processed_table[main_table_path] + "." + item_f
-                          for item_f in dataset.main_file["fields"]]
-            pivot_query = "\nSELECT {all_fls} into {res} " \
-                          "\nFROM {main_table} AS {table_m} " \
-                          "".format(all_fls=', '.join(str(e) for e in all_fields),
-                                    main_table=dataset.main_file["path"],
-                                    res="{result_dbi}.{result_tablei}",
-                                    table_m=as_processed_table[main_table_path])
+        # if not dataset.main_file["fields"]:
+        #     pivot_query = "\nSELECT {al} INTO {res} " \
+        #                   "\nFROM {main_table} AS {table_m} " \
+        #                   "".format(main_table=dataset.main_file["path"],
+        #                             al=', '.join(str(e) for e in all_fields),
+        #                             res="{result_dbi}.{result_tablei}",
+        #                             table_m=as_processed_table[main_table_path])
+        # else:
+        #     # all_fields = dataset.main_file["fields"]
+        #     all_fields += [as_processed_table[main_table_path] + "." + item_f
+        #                   for item_f in dataset.main_file["fields"]]
+        pivot_query = "\nSELECT {all_fls} into {res} " \
+                      "\nFROM {main_table} AS {table_m} " \
+                      "".format(all_fls=', '.join(str(e) for e in all_fields),
+                                main_table=dataset.main_file["path"],
+                                res="{result_dbi}.{result_tablei}",
+                                table_m=as_processed_table[main_table_path])
         if make_temp:
-            # ["latitude", "longitude"]
-            y = dataset.main_file["lat_long"][0]
-            x = dataset.main_file["lat_long"][1]
+            # ["latitude", "longitude"] [y,x]
+            y = dataset.result["lat_long"][0]
+            x = dataset.result["lat_long"][1]
 
             temp_fields = ["temp." + item_k for item_k in dataset.main_file["fields"]]
             temp_fields_string = ', '.join(str(e) for e in temp_fields) + ", "

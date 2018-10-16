@@ -1,5 +1,5 @@
 {
-  "name": "mammal-community-masses",
+  "name": "mammal-community-bioclim",
   "version": "1.0.0",
   "citation": [
     {
@@ -26,7 +26,8 @@
   "result": {
     "dataset": "mammal-community-masses",
     "table": "masses",
-    "fields": []
+    "fields": [],
+    "lat_long": ["latitude","longitude"]
   },
   "main_file": {
     "path": "mammal_community_db.communities",
@@ -110,12 +111,21 @@
         "comb_mass_g",
         "reference"
       ]
+    },
+    {
+      "database_name": "bioclim",
+      "table_name": "bio1",
+      "table_type": "raster",
+      "fields": []
     }
+
   ],
   "join": [
     {
       "table": "mammal_community_db.sites",
-       "fields_to_use": [
+      "table_type": "tabular",
+      "lat_long": ["latitude","longitude"],
+      "fields_to_use": [
          "site_id",
          "reference_id",
          "location",
@@ -139,7 +149,8 @@
       }
     },
     {
-       "table": "mammal_community_db.species",
+      "table": "mammal_community_db.species",
+      "table_type": "tabular",
        "fields_to_use": [
         "species_id",
         "family",
