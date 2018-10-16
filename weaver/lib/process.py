@@ -14,13 +14,6 @@ def make_sql(dataset):
     query_statement = ""
     all_fields = []
     unique_f = set()
-    # >> > a = set('abcde')
-    # >> > l = ['f', 'g']
-    # >> > a |= set(l)
-    # if "fields" in dataset.result and dataset.result["fields"]:
-    #     all_fields += dataset.result["fields"]
-    # else:
-    #     all_fields += dataset.main_file["fields"]
     make_temp = False
 
     if "fields" in dataset.main_file:
@@ -88,11 +81,19 @@ def make_sql(dataset):
                 query_statement += left_join
             else:
                 # "table_type" is tabular
+                where_clause = ""
+                if "lat_long" in table2join:
+                    # ["latitude", "longitude"] [y,x]
+                    y = table2join["lat_long"][0]
+                    x = table2join["lat_long"][1]
+                    where_clause = "\nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(latitude=y, longitude=x)
+
                 left_join = "\nLEFT OUTER JOIN " \
                             "\n\t(SELECT {fields_used} " \
-                            "\n\tFROM {table_j}) AS {table_j_as} " \
+                            "\n\tFROM {table_j} \n{where_st}) AS {table_j_as} " \
                             "".format(table_j=table2join["table"],
                                       table_j_as=as_tables,
+                                      where_st=where_clause,
                                       fields_used=fields_string)
                 left_join += "\nON \n"
 
@@ -132,22 +133,20 @@ def make_sql(dataset):
 
     # Process the main file and create the query string for all the required fields
     if "fields" in dataset.main_file:
-        # if not dataset.main_file["fields"]:
-        #     pivot_query = "\nSELECT {al} INTO {res} " \
-        #                   "\nFROM {main_table} AS {table_m} " \
-        #                   "".format(main_table=dataset.main_file["path"],
-        #                             al=', '.join(str(e) for e in all_fields),
-        #                             res="{result_dbi}.{result_tablei}",
-        #                             table_m=as_processed_table[main_table_path])
-        # else:
-        #     # all_fields = dataset.main_file["fields"]
-        #     all_fields += [as_processed_table[main_table_path] + "." + item_f
-        #                   for item_f in dataset.main_file["fields"]]
+        where_clause = ""
+        if "lat_long" in dataset.main_file and dataset.main_file["lat_long"]:
+            # ["latitude", "longitude"] [y,x]
+            y = table2join["lat_long"][0]
+            x = table2join["lat_long"][1]
+            where_clause = "\nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(
+                latitude=y, longitude=x)
+
         pivot_query = "\nSELECT {all_fls} into {res} " \
-                      "\nFROM {main_table} AS {table_m} " \
+                      "\nFROM {main_table} {where_stm} AS {table_m} " \
                       "".format(all_fls=', '.join(str(e) for e in all_fields),
                                 main_table=dataset.main_file["path"],
                                 res="{result_dbi}.{result_tablei}",
+                                where_stm= where_clause,
                                 table_m=as_processed_table[main_table_path])
         if make_temp:
             # ["latitude", "longitude"] [y,x]
@@ -161,15 +160,17 @@ def make_sql(dataset):
                                                    "cast(temp.{x1} as varchar) " \
                                                    "cast(temp.{y1} as varchar))', " \
                                                    "4326) as the_geom ".format(x1=x, y1=y)
-            pivot_query = "\nSELECT {all_flds} into {res} \nFROM (SELECT  {temp_geom_value}  \nFROM {main_table} temp \nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%') {table_m} ".format(
-                              all_flds=', '.join(str(e) for e in all_fields),
+            pivot_query = "\nSELECT {all_flds} " \
+                          "\nINTO {res} " \
+                          "\nFROM (SELECT  {temp_geom_value}  " \
+                          "\nFROM {main_table} temp " \
+                          "\n{where_stm}) {table_m} ".format(
+                all_flds=', '.join(str(e) for e in all_fields),
                 temp_geom_value=temp_geom_value,
-                              main_table=dataset.main_file["path"],
-                              res="{result_dbi}.{result_tablei}",
-                              table_m=as_processed_table[main_table_path],
-                latitude=y,
-                longitude=x
-            )
+                main_table=dataset.main_file["path"],
+                res="{result_dbi}.{result_tablei}",
+                table_m=as_processed_table[main_table_path],
+                where_stm=where_clause)
 
     print(pivot_query+ query_statement)
     exit()
