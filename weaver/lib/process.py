@@ -24,7 +24,10 @@ def make_sql(dataset):
 
     # Process all tables that are to be joined
     # and the fields that are required
-    for count, table2join in enumerate(dataset.join):
+
+    for count, dict_joins in enumerate(dataset.join):
+        table2join =OrderedDict()
+        table2join=dict_joins
 
         as_tables = "as_" + str(count)  # Table references Table as T
         as_tables_dot = as_tables + "."
@@ -86,11 +89,12 @@ def make_sql(dataset):
                     # ["latitude", "longitude"] [y,x]
                     y = table2join["lat_long"][0]
                     x = table2join["lat_long"][1]
-                    where_clause = "\nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(latitude=y, longitude=x)
+                    where_clause = "WHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(latitude=y, longitude=x)
 
                 left_join = "\nLEFT OUTER JOIN " \
                             "\n\t(SELECT {fields_used} " \
-                            "\n\tFROM {table_j} \n{where_st}) AS {table_j_as} " \
+                            "\n\tFROM {table_j} " \
+                            "\n\t{where_st}) AS {table_j_as} " \
                             "".format(table_j=table2join["table"],
                                       table_j_as=as_tables,
                                       where_st=where_clause,
