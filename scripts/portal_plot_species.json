@@ -86,7 +86,8 @@
   "join": [
     {
       "table": "portal.plots",
-       "fields_to_use": [
+      "table_type": "tabular",
+      "fields_to_use": [
         "plot_id",
         "plot_type"
        ],
@@ -97,16 +98,16 @@
       }
     },
     {
-       "table": "portal.species",
-       "fields_to_use": [
+      "table": "portal.species",
+      "table_type": "tabular",
+      "fields_to_use": [
         "species_id",
-        "family",
         "genus",
         "species",
-        "species_level"
+        "taxa"
       ],
       "join_ocn": {
-        "common_field": ["species_id"],
+        "common_field": [],
         "portal.main": ["species"],
         "portal.species": ["species_id"]
       }

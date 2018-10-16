@@ -68,10 +68,10 @@ def make_sql(dataset):
                             "\n".format(table_i=table2join["table"], tablei_as=as_tables)
                 query_statement += left_join
             elif table2join["table_type"] == "raster":
-                if fields_string.strip() == "":
-                    fields_string +=  " rast As rast "
-                else:
-                    fields_string += ", rast As rast "
+                # if fields_string.strip() == "":
+                #     fields_string +=  " rast As rast "
+                # else:
+                #     fields_string += ", rast As rast "
                 make_temp = True
                 # ["latitude", "longitude"] [y,x]
                 y = dataset.result["lat_long"][0]
@@ -82,9 +82,9 @@ def make_sql(dataset):
                             "".format(table_j=table2join["table"],
                                       table_j_as=as_tables,
                                       fields_used=fields_string)
-                left_join += "\nON ST_Intersects(" + as_tables + ".rast, ST_PointFromText(FORMAT('POINT(%s %s)', cast("+ x + "as varchar), cast("+ y +"as varchar)), 4326))\n"
-                where_sql = "\nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%".format(latitude=y, longitude=x)
-                left_join += where_sql
+                left_join += "\nON ST_Intersects(" + as_tables + ".rast, ST_PointFromText(FORMAT('POINT(%s %s)', cast("+ x + " as varchar), cast("+ y +" as varchar)), 4326))\n"
+
+                # left_join += where_sql
                 query_statement += left_join
             else:
                 # "table_type" is tabular
@@ -118,9 +118,10 @@ def make_sql(dataset):
                 for num, items in enumerate(temp_dict[tab_field_index[0]]):
                     new_on = "{tab_i}.{field_i}={tab_j}.{field_j}".format(
                         tab_i=as_processed_table[str(tab_field_index[0])],
-                        field_i=items,
+                        # field_i=items,
+                        field_i= temp_dict[tab_field_index[0]][num],
                         tab_j=as_processed_table[str(tab_field_index[1])],
-                        field_j=temp_dict[tab_field_index[0]][num])
+                        field_j=temp_dict[tab_field_index[1]][num])
                     on_diff_stmt.append(new_on)
 
                 all_on_stmts = on_diff_stmt + on_common_stmt
@@ -160,12 +161,16 @@ def make_sql(dataset):
                                                    "cast(temp.{x1} as varchar) " \
                                                    "cast(temp.{y1} as varchar))', " \
                                                    "4326) as the_geom ".format(x1=x, y1=y)
-            pivot_query = "\nSELECT {all_flds} into {res} \nFROM (SELECT  {temp_geom_value}  \nFROM {main_table} temp) {table_m} ".format(
+            pivot_query = "\nSELECT {all_flds} into {res} \nFROM (SELECT  {temp_geom_value}  \nFROM {main_table} temp \nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%') {table_m} ".format(
                               all_flds=', '.join(str(e) for e in all_fields),
                 temp_geom_value=temp_geom_value,
                               main_table=dataset.main_file["path"],
                               res="{result_dbi}.{result_tablei}",
-                              table_m=as_processed_table[main_table_path])
+                              table_m=as_processed_table[main_table_path],
+                latitude=y,
+                longitude=x
+            )
+
     print(pivot_query+ query_statement)
     exit()
     # return pivot_query+ query_statement
