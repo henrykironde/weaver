@@ -15,6 +15,7 @@ def make_sql(dataset):
     all_fields = []
     unique_f = set()
     make_temp = False
+    rast_values =[]
 
     if "fields" in dataset.main_file:
         if dataset.main_file["fields"]:
@@ -37,16 +38,17 @@ def make_sql(dataset):
         # references Table name. Select a.t1, b.t1 c.t2 From ..
         # ie. a.t1, b.t1 c.t2
         fields_used = []
+        rast_va_local = []
         if "fields_to_use" in table2join:
             if table2join["fields_to_use"]:
                 fields_used = table2join["fields_to_use"]
-            elif table2join["table_type"] == "raster":
-                # use all the fields in tables[fields]
-                for table_dict in dataset.tables:
-                    db_table_name= table_dict['database_name'] + '.' + table_dict['table_name']
-                    if db_table_name == table2join['table']:
-                        fields_used = table_dict['fields']
-                        continue
+            # elif table2join["table_type"] == "raster":
+            #     # use all the fields in tables[fields]
+            #     for table_dict in dataset.tables:
+            #         db_table_name= table_dict['database_name'] + '.' + table_dict['table_name']
+            #         # if db_table_name == table2join['table']:
+            #         #     fields_used = table_dict['fields']
+            #         #     continue
 
         all_fields += [as_tables_dot + field_name for field_name in fields_used if field_name  not in unique_f]
         unique_f |= set(fields_used)
@@ -64,21 +66,25 @@ def make_sql(dataset):
                             "\n".format(table_i=table2join["table"], tablei_as=as_tables)
                 query_statement += left_join
             elif table2join["table_type"] == "raster":
-                # if fields_string.strip() == "":
-                #     fields_string +=  " rast As rast "
-                # else:
-                #     fields_string += ", rast As rast "
+                # Add value to fields_used
+
                 make_temp = True
                 # ["latitude", "longitude"] [y,x]
                 y = dataset.result["lat_long"][0]
                 x = dataset.result["lat_long"][1]
+                T1 =as_processed_table[main_table_path]
+                rast_value = "ST_Value("  + as_tables + ".rast_" + table2join["table_name"] + ", 1, ST_PointFromText(FORMAT('POINT(%s %s)', cast({T1}.{longitude} as varchar), cast({T1}.{latitude} as varchar)), 4326)) ".format(T1=T1,longitude=x,latitude=y) + "as rast_" + table2join["table_name"]
+                rast_values.append(rast_value)
+                fields_string = ', '.join("{e} as {e}_{raster_name}".format(e=e, raster_name=table2join["table_name"]) for e in fields_used.append("rast_" + table2join["table_name"]))
+
                 left_join = "\nLEFT OUTER JOIN " \
                             "\n\t(SELECT {fields_used} " \
                             "\n\tFROM {table_j}) AS {table_j_as} " \
                             "".format(table_j=table2join["table"],
                                       table_j_as=as_tables,
                                       fields_used=fields_string)
-                left_join += "\nON ST_Intersects(" + as_tables + ".rast, ST_PointFromText(FORMAT('POINT(%s %s)', cast("+ x + " as varchar), cast("+ y +" as varchar)), 4326))\n"
+
+                left_join += "\nON ST_Intersects(" + as_tables + ".rast_" + table2join["table_name"] + ", ST_PointFromText(FORMAT('POINT(%s %s)', cast("+ x + " as varchar), cast("+ y +" as varchar)), 4326))\n"
 
                 # left_join += where_sql
                 query_statement += left_join
@@ -140,11 +146,13 @@ def make_sql(dataset):
         where_clause = ""
         if "lat_long" in dataset.main_file and dataset.main_file["lat_long"]:
             # ["latitude", "longitude"] [y,x]
-            y = table2join["lat_long"][0]
-            x = table2join["lat_long"][1]
-            where_clause = "\nWHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(
+            y = dataset.main_file["lat_long"][0]
+            x = dataset.main_file["lat_long"][1]
+            where_clause = "WHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(
                 latitude=y, longitude=x)
-
+        # process_raster_values
+        if rast_values:
+            all_fields+=rast_values
         pivot_query = "\nSELECT {all_fls} into {res} " \
                       "\nFROM {main_table} {where_stm} AS {table_m} " \
                       "".format(all_fls=', '.join(str(e) for e in all_fields),
@@ -152,6 +160,7 @@ def make_sql(dataset):
                                 res="{result_dbi}.{result_tablei}",
                                 where_stm= where_clause,
                                 table_m=as_processed_table[main_table_path])
+
         if make_temp:
             # ["latitude", "longitude"] [y,x]
             y = dataset.result["lat_long"][0]
