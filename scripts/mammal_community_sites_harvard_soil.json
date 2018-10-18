@@ -26,7 +26,8 @@
   "result": {
     "dataset": "mammal-community-sites-harvard-soil",
     "table": "sites-soils",
-    "fields": []
+    "fields": [],
+     "lat_long": ["latitude","longitude"]
   },
   "main_file": {
     "path": "mammal_community_db.sites",
@@ -76,6 +77,7 @@
     {
       "table": "harvard_forest.soils",
       "table_type": "vector",
+      "table_name": "soils",
        "fields_to_use": [
          "type_",
           "notes",

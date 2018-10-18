@@ -13,11 +13,23 @@ def make_sql(dataset):
     as_processed_table = OrderedDict([(main_table_path, "T1")])
     query_statement = ""
     all_fields = []
+    unique_f = set()
     make_temp = False
+    rast_values =[]
+
+    if "fields" in dataset.main_file:
+        if dataset.main_file["fields"]:
+            all_fields += [as_processed_table[main_table_path] + "." + item_f
+                          for item_f in dataset.main_file["fields"]]
+            unique_f |= set(dataset.main_file["fields"])
 
     # Process all tables that are to be joined
     # and the fields that are required
-    for count, table2join in enumerate(dataset.join):
+
+    for count, dict_joins in enumerate(dataset.join):
+        table2join =OrderedDict()
+        table2join=dict_joins
+        rast_values_local = []
 
         as_tables = "as_" + str(count)  # Table references Table as T
         as_tables_dot = as_tables + "."
@@ -27,13 +39,16 @@ def make_sql(dataset):
         # references Table name. Select a.t1, b.t1 c.t2 From ..
         # ie. a.t1, b.t1 c.t2
         fields_used = []
+        rast_va_local = []
         if "fields_to_use" in table2join:
             if table2join["fields_to_use"]:
-                all_fields += [as_tables_dot + field_name for field_name in table2join["fields_to_use"]]
                 fields_used = table2join["fields_to_use"]
-            elif table2join["table_type"] == "raster":
-                fields_used = [" * "]
-        fields_string = ', '.join(str(e) for e in fields_used)
+
+        all_fields += [as_tables_dot + field_name for field_name in fields_used if field_name  not in unique_f]
+        unique_f |= set(fields_used)
+        fields_string = ""
+        if fields_used:
+            fields_string = ', '.join(str(e) for e in fields_used)
 
         if "table_type" in table2join:
             # use the longitude ()and latitude to calculate the the_geom in a temp table
@@ -41,22 +56,64 @@ def make_sql(dataset):
             # the_geom = ST_MakePoint(double precision x, double precision y) or
             # the_geom = ST_PointFromText('POINT(-71.064544 42.28787)', 4326);
             if table2join["table_type"] == "vector":
-
                 make_temp = True  # Used to create a temp table with a geom
-                left_join = "\nLEFT JOIN {table_i} {tablei_as} " \
-                            "\nON ST_Within(t1.geom, {tablei_as}.geom) " \
-                            "\n".format(table_i=table2join["table"], tablei_as=as_tables)
-
+                # ["latitude", "longitude"] [y,x]
+                y = dataset.result["lat_long"][0]
+                x = dataset.result["lat_long"][1]
+                T1 =as_processed_table[main_table_path]
+                # geom_value = "ST_Value("  + as_tables + ".geom" + table2join["table_name"] + ", 1, ST_PointFromText(FORMAT('POINT(%s %s)', cast({T1}.{longitude} as varchar), cast({T1}.{latitude} as varchar)), 4326)) ".format(T1=T1,longitude=x,latitude=y) + "as rast_" + table2join["table_name"]
+                # geom_value = "ST_Value("  + as_tables + ".geom" + ", 1, ST_PointFromText(FORMAT('POINT(%s %s)', cast({T1}.{longitude} as varchar), cast({T1}.{latitude} as varchar)), 4326)) ".format(T1=T1,longitude=x,latitude=y) + "as rast_" + table2join["table_name"]
+                # rast_values.append(geom_value)
+                left_join = "\nLEFT OUTER JOIN " \
+                            "\n\t(SELECT {fields_used} " \
+                            "\n\tFROM {table_i}) AS {tablei_as} " \
+                            "\nON ST_Within(T1.the_geom, {tablei_as}.geom) " \
+                            "\n".format(table_i=table2join["table"],
+                                        tablei_as=as_tables,
+                                        fields_used=fields_string)
                 query_statement += left_join
             elif table2join["table_type"] == "raster":
-                pass
-            else:
-                # "table_type" is tabular
+                # Add value to fields_used
+                make_temp = True
+                # ["latitude", "longitude"] [y,x]
+                y = dataset.result["lat_long"][0]
+                x = dataset.result["lat_long"][1]
+                T1 =as_processed_table[main_table_path]
+                rast_value = "ST_Value("  + as_tables + ".rast_" + table2join["table_name"] + ", 1, ST_PointFromText(FORMAT('POINT(%s %s)', cast({T1}.{longitude} as varchar), cast({T1}.{latitude} as varchar)), 4326)) ".format(T1=T1,longitude=x,latitude=y) + "as rast_" + table2join["table_name"]
+                rast_values.append(rast_value)
+                if 'rast' not in fields_used:
+                    fields_used = fields_used + ['rast']
+                    # fields_used = fields_used+["rast_" + table2join["table_name"]]
+                fields_string = ', '.join("{e} as {e}_{raster_name}".format(e=e, raster_name=table2join["table_name"])
+                                           for e in fields_used)
+
                 left_join = "\nLEFT OUTER JOIN " \
                             "\n\t(SELECT {fields_used} " \
                             "\n\tFROM {table_j}) AS {table_j_as} " \
                             "".format(table_j=table2join["table"],
                                       table_j_as=as_tables,
+                                      fields_used=fields_string)
+
+                left_join += "\nON ST_Intersects(" + as_tables + ".rast_" + table2join["table_name"] + ", ST_PointFromText(FORMAT('POINT(%s %s)', cast("+ x + " as varchar), cast("+ y +" as varchar)), 4326))\n"
+
+                # left_join += where_sql
+                query_statement += left_join
+            else:
+                # "table_type" is tabular
+                where_clause = ""
+                if "lat_long" in table2join:
+                    # ["latitude", "longitude"] [y,x]
+                    y = table2join["lat_long"][0]
+                    x = table2join["lat_long"][1]
+                    where_clause = "WHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(latitude=y, longitude=x)
+
+                left_join = "\nLEFT OUTER JOIN " \
+                            "\n\t(SELECT {fields_used} " \
+                            "\n\tFROM {table_j} " \
+                            "\n\t{where_st}) AS {table_j_as} " \
+                            "".format(table_j=table2join["table"],
+                                      table_j_as=as_tables,
+                                      where_st=where_clause,
                                       fields_used=fields_string)
                 left_join += "\nON \n"
 
@@ -82,9 +139,10 @@ def make_sql(dataset):
                 for num, items in enumerate(temp_dict[tab_field_index[0]]):
                     new_on = "{tab_i}.{field_i}={tab_j}.{field_j}".format(
                         tab_i=as_processed_table[str(tab_field_index[0])],
-                        field_i=items,
+                        # field_i=items,
+                        field_i= temp_dict[tab_field_index[0]][num],
                         tab_j=as_processed_table[str(tab_field_index[1])],
-                        field_j=temp_dict[tab_field_index[0]][num])
+                        field_j=temp_dict[tab_field_index[1]][num])
                     on_diff_stmt.append(new_on)
 
                 all_on_stmts = on_diff_stmt + on_common_stmt
@@ -95,43 +153,51 @@ def make_sql(dataset):
 
     # Process the main file and create the query string for all the required fields
     if "fields" in dataset.main_file:
-        if not dataset.main_file["fields"]:
-            pivot_query = "\nSELECT {al} INTO {res} " \
-                          "\nFROM {main_table} AS {table_m} " \
-                          "".format(main_table=dataset.main_file["path"],
-                                    al=', '.join(str(e) for e in all_fields),
-                                    res="{result_dbi}.{result_tablei}",
-                                    table_m=as_processed_table[main_table_path])
-        else:
-            # all_fields = dataset.main_file["fields"]
-            all_fields = [as_processed_table[main_table_path] + "." + item_f
-                          for item_f in dataset.main_file["fields"]]
-            pivot_query = "\nSELECT {all_fls} into {res} " \
-                          "\nFROM {main_table} AS {table_m} " \
-                          "".format(all_fls="{all_flds}",
-                                    main_table=dataset.main_file["path"],
-                                    res="{result_dbi}.{result_tablei}",
-                                    table_m=as_processed_table[main_table_path])
-            if make_temp:
-                # ["latitude", "longitude"]
-                y = dataset.main_file["lat_long"][0]
-                x = dataset.main_file["lat_long"][1]
+        where_clause = ""
+        if "lat_long" in dataset.main_file and dataset.main_file["lat_long"]:
+            # ["latitude", "longitude"] [y,x]
+            y = dataset.main_file["lat_long"][0]
+            x = dataset.main_file["lat_long"][1]
+            where_clause = "WHERE {latitude} Not LIKE '%NULL%' AND {longitude} Not LIKE '%NULL%' ".format(
+                latitude=y, longitude=x)
+        # process_raster_values
+        if rast_values:
+            all_fields+=rast_values
+        pivot_query = "\nSELECT {all_fls} into {res} " \
+                      "\nFROM {main_table} {where_stm} AS {table_m} " \
+                      "".format(all_fls=', '.join(str(e) for e in all_fields),
+                                main_table=dataset.main_file["path"],
+                                res="{result_dbi}.{result_tablei}",
+                                where_stm= where_clause,
+                                table_m=as_processed_table[main_table_path])
 
-                temp_fields = ["temp." + item_k for item_k in dataset.main_file["fields"]]
-                temp_fields_string = ', '.join(str(e) for e in temp_fields) + ", "
+        if make_temp:
+            # ["latitude", "longitude"] [y,x]
+            y = dataset.result["lat_long"][0]
+            x = dataset.result["lat_long"][1]
 
-                temp_geom_value = temp_fields_string + "ST_PointFromText('POINT(" \
-                                                       "cast(temp.{x1} as varchar) " \
-                                                       "cast(temp.{y1} as varchar))', " \
-                                                       "4326) as the_geom ".format(x1=x, y1=y)
+            temp_fields = ["temp." + item_k for item_k in dataset.main_file["fields"]]
+            temp_fields_string = ', '.join(str(e) for e in temp_fields) + ", "
 
-                pivot_query = "\nSELECT {all_flds} into {res} " \
-                              "\nFROM (SELECT " + temp_geom_value + \
-                              "\nFROM {main_table} temp) {table_m}". \
-                                  format(all_flds="{all_flds}", main_table=dataset.main_file["path"],
-                                         res="{result_dbi}.{result_tablei}",
-                                         table_m=as_processed_table[main_table_path])
+            temp_geom_value = \
+                temp_fields_string + \
+                "ST_PointFromText(FORMAT('POINT(%s %s)', cast(temp.{x1} as varchar), cast(temp.{y1} as varchar)), 4326) as the_geom ".format(x1=x, y1=y)
+                # "ST_PointFromText(FORMAT('POINT(%s %s)', cast(temp.{x1} as varchar), cast(temp.{y1} as varchar)), 4326) as geom "
+                # "ST_PointFromText(FORMAT('POINT(%s %s)', cast({T1}.{longitude} as varchar), cast({T1}.{latitude} as varchar)), 4326)"
+            pivot_query = "\nSELECT {all_flds} " \
+                          "\nINTO {res} " \
+                          "\nFROM (SELECT  {temp_geom_value}  " \
+                          "\nFROM {main_table} temp " \
+                          "\n{where_stm}) {table_m} ".format(
+                all_flds=', '.join(str(e) for e in all_fields),
+                temp_geom_value=temp_geom_value,
+                main_table=dataset.main_file["path"],
+                res="{result_dbi}.{result_tablei}",
+                table_m=as_processed_table[main_table_path],
+                where_stm=where_clause)
 
-    str_4fields = ', '.join(str(e) for e in all_fields)
-    stm = query_statement.format(all_flds=str_4fields)
-    return pivot_query + " " + stm
+    print(pivot_query+ query_statement)
+    exit()
+    # return pivot_query+ query_statement
+
+
