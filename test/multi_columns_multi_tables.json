@@ -1,0 +1,106 @@
+{
+  "name": "tables_a_c_e_columns_a_b",
+  "version": "1.0.0",
+  "citation": [
+    {
+      "table_a": "citatation for table_a",
+      "table_b": "citatation for table_b",
+      "table_c": "citatation for table_c"
+    }
+  ],
+  "description": "Integrated dataset of table_a and table_b, table_d using columns a and b",
+  "retriever-datasets": [],
+  "keywords": [
+    "Tests"
+  ],
+  "licenses":
+    {
+      "table_a": [],
+      "table_c": [],
+      "table_e": []
+    },
+  "result": {
+    "dataset": "tables_a_c_e_columns_a_b",
+    "table": "a_b_e",
+    "fields": []
+  },
+  "main_file": {
+    "path": "table_one.table_a",
+    "database_name": "table_one",
+    "table_name": "table_a",
+    "table_type": "tabular",
+      "fields": [
+        "a",
+        "b",
+        "c"
+      ]
+  },
+  "tables": [
+    {
+      "database_name": "table_one",
+      "table_name": "table_a",
+      "table_type": "tabular",
+      "fields": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "database_name": "table_one",
+      "table_name": "table_c",
+      "table_type": "tabular",
+      "fields": [
+        "a",
+        "b",
+        "e"
+      ]
+    },
+    {
+      "database_name": "table_one",
+      "table_name": "table_e",
+      "table_type": "tabular",
+      "fields": [
+        "id",
+        "A",
+        "B",
+        "f"
+      ]
+    }
+  ],
+  "join": [
+    {
+      "table": "table_one.table_c",
+      "database_name": "table_one",
+      "table_name": "table_c",
+      "table_type": "tabular",
+      "fields_to_use": [
+         "a",
+         "b",
+         "e"
+       ],
+      "join_ocn": {
+        "common_field": [],
+        "table_one.table_a": ["a", "b"],
+        "table_one.table_c": ["a", "b"]
+      }
+    },
+    {
+      "table": "table_one.table_e",
+      "database_name": "table_one",
+      "table_name": "table_e",
+      "table_type": "tabular",
+      "fields_to_use": [
+        "id",
+         "A",
+         "B",
+         "f"
+       ],
+      "join_ocn": {
+        "common_field": [],
+        "table_one.table_a": ["a", "b"],
+        "table_one.table_e": ["A", "B"]
+      }
+    }
+  ]
+}

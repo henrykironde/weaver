@@ -31,105 +31,185 @@ if os.name == "nt":
 else:
     os_password = ""
 
-mysql_engine, postgres_engine, sqlite_engine, msaccess_engine, \
-csv_engine, download_engine, json_engine, xml_engine = engine_list
+postgres_engine, sqlite_engine = engine_list
 
 table_one = {
     'name': 'table_one',
     'raw_data': ['a,b,c',
-                 '1,2,3',
-                 '4,5,6'],
+                 '1,3,5',
+                 '2,4,6'],
     'script': {"name": "table_one",
                "resources": [
                    {"dialect": {"do_not_bulk_insert": "True"},
                     "name": "table_one",
-                    "schema": {},
+                    "schema": {
+                      "fields": [
+                         {
+                          "name": "a",
+                          "type": "int"
+                         },
+                         {
+                          "name": "b",
+                          "type": "int"
+                         },
+                         {
+                          "name": "c",
+                          "type": "int"
+                         }
+                      ]
+                    },
                     "url": "http://example.com/table_one.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0",
                "urls":
                    {"table_one": "http://example.com/table_one.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
+               }
 }
 
-#t1.c==t2.c
 table_two = {
     'name': 'table_two',
-    'raw_data': ['d,c,f',
-                 '1,5,8',
-                 '2,6,9',
-                 '3,5,7'],
+    'raw_data': ['a,d,e',
+                 '1,r,UV',
+                 '2,s,WX',
+                 '3,t,YZ'],
     'script': {"name": "table_two",
                "resources": [
                    {"dialect": {"do_not_bulk_insert": "True"},
                     "name": "table_two",
-                    "schema": {},
+                    "schema": {
+                      "fields": [
+                         {
+                          "name": "a",
+                          "type": "int"
+                         },
+                         {
+                          "name": "d",
+                          "size": "4",
+                          "type": "char"
+                         },
+                         {
+                          "name": "e",
+                          "size": "4",
+                          "type": "char"
+                         }
+                      ]
+                    },
                     "url": "http://example.com/table_two.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0",
                "urls":
                    {"table_two": "http://example.com/table_two.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
+               }
 }
 
-# t1.b==t3.e and t1.c==t3.f
 table_three = {
     'name': 'table_three',
-    'raw_data': ['d,e,f,g',
-                 '1,2,4,4',
-                 '1,2,3,4',
-                 '4,5,6,4',
-                 '1,5,6,4'],
+    'raw_data': ['a,b,e',
+                 '1,2,UV',
+                 '1,3,WX',
+                 '1,0,YZ',
+                 '2,4,OP',
+                 '2,5,QR'],
     'script': {"name": "table_three",
                "resources": [
                    {"dialect": {"do_not_bulk_insert": "True"},
                     "name": "table_three",
-                    "schema": {},
+                    "schema": {
+                    "fields": [
+                      {
+                        "name": "a",
+                        "type": "int"
+                      },
+                      {
+                        "name": "b",
+                        "type": "int"
+                      },
+                      {
+                        "name": "e",
+                        "size": "4",
+                        "type": "char"
+                      }
+                    ]
+                    },
                     "url": "http://example.com/table_three.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0",
                "urls":
                    {"table_three": "http://example.com/table_three.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
+               }
 }
 
-# t1.c==t2.c and t2.f== t4.f(intermediate table)
 table_four = {
     'name': 'table_four',
-    'raw_data': ['e,f,g',
-                 '1,2,3',
-                 '4,5,6'],
+    'raw_data': ['a,f,g',
+                 '4,1,4',
+                 '2,2,5',
+                 '1,3,6'],
     'script': {"name": "table_four",
                "resources": [
                    {"dialect": {"do_not_bulk_insert": "True"},
                     "name": "table_four",
-                    "schema": {},
+                    "schema": {
+                      "fields": [
+                        {
+                          "name": "a",
+                          "type": "int"
+                        },
+                        {
+                          "name": "f",
+                          "size": "4",
+                          "type": "char"
+                        },
+                        {
+                          "name": "g",
+                          "size": "4",
+                          "type": "char"
+                        }
+                      ]
+                    },
                     "url": "http://example.com/table_four.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0",
                "urls":
                    {"table_four": "http://example.com/table_four.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
+               }
 }
 
 table_five = {
     'name': 'table_five',
-    'raw_data': ['a,b,c',
-                 '1,2,3',
-                 '4,5,6'],
+    'raw_data': ['id,a,b,f',
+                 '1,1,3,PL',
+                 '2,2,4,PT',
+                 '3,2,4,PX'],
     'script': {"name": "table_five",
                "resources": [
                    {"dialect": {"do_not_bulk_insert": "True"},
                     "name": "table_five",
-                    "schema": {},
+                    "schema": {
+                      "fields": [
+                         {
+                          "name": "id",
+                          "type": "int"
+                         },
+                         {
+                          "name": "a",
+                          "type": "int"
+                         },
+                         {
+                          "name": "b",
+                          "type": "int"
+                         },
+                         {
+                          "name": "f",
+                          "size": "4",
+                          "type": "char"
+                         } 
+                        ]
+                    },
                     "url": "http://example.com/table_five.txt"}
                ],
                "retriever": "True",
@@ -137,82 +217,18 @@ table_five = {
                "urls":
                    {"table_five": "http://example.com/table_five.txt"}
                },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
 }
 
-table_six = {
-    'name': 'table_six',
-    'raw_data': ['a,b,c',
-                 '1,2,3',
-                 '4,5,6'],
-    'script': {"name": "table_six",
-               "resources": [
-                   {"dialect": {"do_not_bulk_insert": "True"},
-                    "name": "table_six",
-                    "schema": {},
-                    "url": "http://example.com/table_six.txt"}
-               ],
-               "retriever": "True",
-               "version": "1.0.0",
-               "urls":
-                   {"table_six": "http://example.com/table_six.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
-}
-
-
-table_seven = {
-    'name': 'table_seven',
-    'raw_data': ['a,b,c',
-                 '1,2,3',
-                 '4,5,6'],
-    'script': {"name": "table_seven",
-               "resources": [
-                   {"dialect": {"do_not_bulk_insert": "True"},
-                    "name": "table_seven",
-                    "schema": {},
-                    "url": "http://example.com/table_seven.txt"}
-               ],
-               "retriever": "True",
-               "version": "1.0.0",
-               "urls":
-                   {"table_seven": "http://example.com/table_seven.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
-}
-
-table_eight = {
-    'name': 'table_eight',
-    'raw_data': ['a,b,c',
-                 '1,2,3',
-                 '4,5,6'],
-    'script': {"name": "table_eight",
-               "resources": [
-                   {"dialect": {"do_not_bulk_insert": "True"},
-                    "name": "table_eight",
-                    "schema": {},
-                    "url": "http://example.com/table_eight.txt"}
-               ],
-               "retriever": "True",
-               "version": "1.0.0",
-               "urls":
-                   {"table_eight": "http://example.com/table_eight.txt"}
-               },
-    'expect_out': ['a,b,c', '1,2,3', '4,5,6']
-}
 tests = [
     table_one,
     table_two,
     table_three,
     table_four,
-    table_five,
-    table_six,
-    table_seven,
-    table_eight
+    table_five
 ]
 
 # Create a tuple of all test scripts with their expected values
-test_parameters = [(test, test['expect_out']) for test in tests]
+# test_parameters = [(test, test['expect_out']) for test in tests]
 
 file_location = os.path.dirname(os.path.realpath(__file__))
 weaver_root_dir = os.path.abspath(os.path.join(file_location, os.pardir))

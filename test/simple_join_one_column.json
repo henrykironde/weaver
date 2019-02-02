@@ -1,0 +1,76 @@
+{
+  "name": "tables_a_b_columns_a",
+  "version": "1.0.0",
+  "citation": [
+    {
+      "table_a": "citatation for table_a",
+      "table_b": "citatation for table_b"
+    }
+  ],
+  "description": "Integrated dataset of table_a and table_b using columns a",
+  "retriever-datasets": [],
+  "keywords": [
+    "Tests"
+  ],
+  "licenses":
+    {
+      "table_a": [],
+      "table_b": []
+    },
+  "result": {
+    "dataset": "tables_a_b_columns_a",
+    "table": "a_b",
+    "fields": ["a","b", "c","d", "e"]
+  },
+  "main_file": {
+    "path": "table_one.table_a",
+    "database_name": "table_one",
+    "table_name": "table_a",
+    "table_type": "tabular",
+      "fields": [
+        "a",
+        "b",
+        "c"
+      ]
+  },
+  "tables": [
+    {
+      "database_name": "table_one",
+      "table_name": "table_a",
+      "table_type": "tabular",
+      "fields": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "database_name": "table_one",
+      "table_name": "table_b",
+      "table_type": "tabular",
+      "fields": [
+        "a",
+        "d",
+        "e"
+      ]
+    }
+  ],
+  "join": [
+    {
+      "table": "table_one.table_b",
+      "database_name": "table_one",
+      "table_name": "table_b",
+      "table_type": "tabular",
+      "fields_to_use": [
+         "a",
+         "d",
+         "e"
+       ],
+      "join_ocn": {
+        "common_field": [],
+        "table_one.table_a": ["a"],
+        "table_one.table_b": ["a"]
+      }
+    }
+  ]
+}
