@@ -335,4 +335,6 @@ def make_sql(dataset):
                                         res="{result_dbi}.{result_tablei}",
                                         where_stm=where_clause,
                                         table_m=as_processed_table[main_table_path]["name"])
+    print(pivot_query + query_statement)
+    exit()
     return pivot_query + query_statement
