@@ -1,33 +1,13 @@
-sudo: false
-dist: trusty
-language: python
-python:
-  - "2.7"
-  - "3.5"
-addons:
-  postgresql: "9.4"
-  apt:
-    sources:
-      - travis-ci/sqlite3
-    packages:
-      - sqlite3
-
+sudo: required
+warnings_are_errors: false
 services:
-  - postgresql
-install:
-  - pip install -r requirements.txt
-  - pip install -e .
-  - pip install codecov -U
-  - pip install pytest-cov -U
-  - pip install pytest-xdist -U
-
-
-# command to run tests using py.test
-
+  - docker
+before_install:
+# Set up environment and create required images
+# If no error don't print output
+# -  docker-compose run weav > /dev/null
+-  docker-compose run weav /bin/sh -c 'pip install . -U'
 script:
-  - ls
-
-# database setup
-before_script:
-  - sqlite3 --version
-  - psql -c 'create database testdb;' -U postgres
+# Load packages and install the required packages
+# Install retriever from source and run tests
+-  docker-compose  run weav /bin/sh -c 'py.test -v -W  ignore::UserWarning --cov=retriever' || exit 1

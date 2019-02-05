@@ -328,13 +328,11 @@ def setup_module():
     setup_postgres_db()
     setup_sqlite_db()
 
-
 ################
 # Weaver Testing
 ################
 
-
-def test_test_scripts():
+def jtest_test_scripts():
     scrpts_and_raw_data = True
     db_md5
     # ToDOs: Change tests the db_md5 and make it Global
@@ -348,20 +346,21 @@ def test_test_scripts():
     for items in tests_scripts:
         retriever_raw_data_path = os.path.normpath(
             os.path.join(RETRIEVER_HOME_DIR, 'raw_data', items, items + '.txt'))
-        if not file_exists(retriever_raw_data_path):
+        if not file_exists(file_exists(retriever_raw_data_path)):
             scrpts_and_raw_data = False
         retriever_script_path = os.path.normpath(
             os.path.join(RETRIEVER_HOME_DIR, 'scripts', items + '.json'))
         if not file_exists(retriever_script_path):
             scrpts_and_raw_data = False
-    assert scrpts_and_raw_data is True
+    assert (True if scrpts_and_raw_data else False) is True
 
 
 def file_exists(path):
     """Return true if a file exists and its size is greater than 0."""
     return os.path.isfile(path) and os.path.getsize(path) > 0
 
-test_test_scripts()
+
+
 ##############################
 # Clean up Testing Environment
 ##############################
