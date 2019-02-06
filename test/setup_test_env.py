@@ -30,10 +30,16 @@ from weaver.lib.engine_tools import create_file
 
 # Set postgres password, Appveyor service needs the password given
 # The Travis service obtains the password from the config file.
-if os.name == "nt":
-    os_password = "Password12!"
-else:
-    os_password = ""
+
+os_password = ""
+pgdb = "localhost"
+
+docker_or_travis = os.environ.get("IN_DOCKER")
+
+# Check if the environment variable "IN_DOCKER" is set to "true"
+if docker_or_travis == "true":
+    os_password = 'Password12!'
+    pgdb = "pgdb"
 
 postgres_engine, sqlite_engine = engine_list
 
@@ -255,117 +261,5 @@ def setup_scripts():
         read_json(os.path.join(RETRIEVER_HOME_DIR, "scripts", test['name']))
 
 
-def teardown_scripts():
-    """Remove test data and scripts from .retriever directories."""
-    for test in tests:
-        shutil.rmtree(os.path.join(RETRIEVER_HOME_DIR, "raw_data", test['name']))
-        os.remove(os.path.join(RETRIEVER_HOME_DIR, "scripts", test['name'] + '.json'))
-
-
-def get_csv_md5(dataset, install_function, config):
-    # install_function(dataset.replace('_', '-'), **config)
-    install_function(dataset, **config)
-    return
-
-
-def install_dataset_postgres(dataset):
-    """Install test dataset into postgres ."""
-    # cmd = 'psql -U postgres -d testdb -h localhost -c ' \
-    #       '"DROP SCHEMA IF EXISTS testschema CASCADE"'
-    # subprocess.call(shlex.split(cmd))
-    postgres_engine.opts = {'engine': 'postgres',
-                            'user': 'postgres',
-                            'password': os_password,
-                            'host': 'localhost',
-                            'port': 5432,
-                            'database': 'testdb',
-                            'database_name': 'testschema',
-                            'table_name': '{db}.{table}'}
-    interface_opts = {"user": 'postgres',
-                      "password": postgres_engine.opts['password'],
-                      "database": postgres_engine.opts['database'],
-                      "database_name": postgres_engine.opts['database_name'],
-                      "table_name": postgres_engine.opts['table_name']}
-    assert get_csv_md5(dataset, install_postgres, interface_opts) is None
-
-
-def install_sqlite_regression(dataset):
-    """Install test dataset into sqlite."""
-    dbfile = os.path.normpath(os.path.join(os.getcwd(), 'testdb.sqlite'))
-    sqlite_engine.opts = {
-        'engine': 'sqlite',
-        'file': dbfile,
-        'table_name': '{db}_{table}'}
-    interface_opts = {'file': dbfile}
-    assert get_csv_md5(dataset, install_sqlite, interface_opts) is None
-
-
-def teardown_postgres_db():
-    cmd = 'psql -U postgres -d testdb -h localhost -c ' \
-          '"DROP SCHEMA IF EXISTS testschema CASCADE"'
-    subprocess.call(shlex.split(cmd))
-
-
-def setup_postgres_db():
-    teardown_postgres_db()
-    for i in db_md5:
-        install_dataset_postgres(i[0])
-
-
-def teardown_sqlite_db():
-    dbfile = os.path.normpath(os.path.join(os.getcwd(), 'testdb.sqlite'))
-    subprocess.call(['rm', '-r', dbfile])
-
-
-def setup_sqlite_db():
-    teardown_sqlite_db()
-    for i in db_md5:
-        install_sqlite_regression(i[0])
-
-
-def setup_module():
+if __name__ == '__main__':
     setup_scripts()
-    setup_postgres_db()
-    setup_sqlite_db()
-
-################
-# Weaver Testing
-################
-
-def jtest_test_scripts():
-    scrpts_and_raw_data = True
-    db_md5
-    # ToDOs: Change tests the db_md5 and make it Global
-    tests_scripts = [
-        "table-one",
-        "table-two",
-        "table-three",
-        "table-four",
-        "table-five"]
-
-    for items in tests_scripts:
-        retriever_raw_data_path = os.path.normpath(
-            os.path.join(RETRIEVER_HOME_DIR, 'raw_data', items, items + '.txt'))
-        if not file_exists(file_exists(retriever_raw_data_path)):
-            scrpts_and_raw_data = False
-        retriever_script_path = os.path.normpath(
-            os.path.join(RETRIEVER_HOME_DIR, 'scripts', items + '.json'))
-        if not file_exists(retriever_script_path):
-            scrpts_and_raw_data = False
-    assert (True if scrpts_and_raw_data else False) is True
-
-
-def file_exists(path):
-    """Return true if a file exists and its size is greater than 0."""
-    return os.path.isfile(path) and os.path.getsize(path) > 0
-
-
-
-##############################
-# Clean up Testing Environment
-##############################
-
-# After tests Clean up
-# teardown_scripts()
-# teardown_sqlite_db()
-# teardown_postgres_db()

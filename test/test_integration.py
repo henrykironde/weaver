@@ -30,10 +30,16 @@ from weaver.lib.engine_tools import create_file
 
 # Set postgres password, Appveyor service needs the password given
 # The Travis service obtains the password from the config file.
-if os.name == "nt":
-    os_password = "Password12!"
-else:
-    os_password = ""
+
+os_password = ""
+pgdb = "localhost"
+
+docker_or_travis = os.environ.get("IN_DOCKER")
+
+# Check if the environment variable "IN_DOCKER" is set to "true"
+if docker_or_travis == "true":
+    os_password = 'Password12!'
+    pgdb = "pgdb"
 
 postgres_engine, sqlite_engine = engine_list
 
@@ -242,6 +248,17 @@ retriever_root_dir = os.path.abspath(os.path.join(file_location, os.pardir))
 RETRIEVER_HOME_DIR = os.path.expanduser('~/.retriever/')
 
 
+def setup_module():
+    setup_scripts()
+    setup_postgres_db()
+    setup_sqlite_db()
+
+
+def teardown_sqlite_db():
+    dbfile = os.path.normpath(os.path.join(os.getcwd(), 'testdb.sqlite'))
+    subprocess.call(['rm', '-r', dbfile])
+
+
 def setup_scripts():
     for test in tests:
         if not os.path.exists(os.path.join(RETRIEVER_HOME_DIR, "raw_data", test['name'])):
@@ -276,7 +293,7 @@ def install_dataset_postgres(dataset):
     postgres_engine.opts = {'engine': 'postgres',
                             'user': 'postgres',
                             'password': os_password,
-                            'host': 'localhost',
+                            'host': pgdb,
                             'port': 5432,
                             'database': 'testdb',
                             'database_name': 'testschema',
@@ -286,7 +303,7 @@ def install_dataset_postgres(dataset):
                       "database": postgres_engine.opts['database'],
                       "database_name": postgres_engine.opts['database_name'],
                       "table_name": postgres_engine.opts['table_name']}
-    assert get_csv_md5(dataset, install_postgres, interface_opts) is None
+    get_csv_md5(dataset, install_postgres, interface_opts)
 
 
 def install_sqlite_regression(dataset):
@@ -297,12 +314,11 @@ def install_sqlite_regression(dataset):
         'file': dbfile,
         'table_name': '{db}_{table}'}
     interface_opts = {'file': dbfile}
-    assert get_csv_md5(dataset, install_sqlite, interface_opts) is None
+    get_csv_md5(dataset, install_sqlite, interface_opts)
 
 
 def teardown_postgres_db():
-    cmd = 'psql -U postgres -d testdb -h localhost -c ' \
-          '"DROP SCHEMA IF EXISTS testschema CASCADE"'
+    cmd = 'psql -U postgres -d testdb -h ' + pgdb + ' -w -c \"DROP SCHEMA IF EXISTS testschema CASCADE\"'
     subprocess.call(shlex.split(cmd))
 
 
@@ -312,21 +328,11 @@ def setup_postgres_db():
         install_dataset_postgres(i[0])
 
 
-def teardown_sqlite_db():
-    dbfile = os.path.normpath(os.path.join(os.getcwd(), 'testdb.sqlite'))
-    subprocess.call(['rm', '-r', dbfile])
-
-
 def setup_sqlite_db():
     teardown_sqlite_db()
     for i in db_md5:
         install_sqlite_regression(i[0])
 
-
-def setup_module():
-    setup_scripts()
-    setup_postgres_db()
-    setup_sqlite_db()
 
 
 ################
@@ -335,6 +341,7 @@ def setup_module():
 
 
 def test_test_scripts():
+    # setup_module()
     scrpts_and_raw_data = True
     db_md5
     # ToDOs: Change tests the db_md5 and make it Global
@@ -361,7 +368,8 @@ def file_exists(path):
     """Return true if a file exists and its size is greater than 0."""
     return os.path.isfile(path) and os.path.getsize(path) > 0
 
-test_test_scripts()
+
+# test_test_scripts()
 ##############################
 # Clean up Testing Environment
 ##############################

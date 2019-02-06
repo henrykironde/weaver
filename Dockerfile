@@ -28,7 +28,7 @@ RUN chmod 0644 ~/.profile
 RUN pip install git+https://git@github.com/weecology/retriever.git
 RUN retriever ls > /dev/null
 RUN pip install  psycopg2 pymysql > /dev/null
-
+RUN pip  install codecov pytest-cov  pytest-xdist pytest==3.9.3 -U
 
 COPY . ./weaver
 # Use entrypoint to run more configurations.
