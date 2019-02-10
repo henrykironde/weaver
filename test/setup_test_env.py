@@ -9,24 +9,21 @@ import shlex
 import shutil
 import subprocess
 import sys
-from imp import reload
 
-from retriever import install_postgres
-from retriever import install_sqlite
-
-from weaver.lib.defaults import ENCODING
+from retriever.lib.defaults import ENCODING
 
 encoding = ENCODING.lower()
 
-reload(sys)
 if hasattr(sys, 'setdefaultencoding'):
     sys.setdefaultencoding(encoding)
 import pytest
+
 from weaver.lib.load_json import read_json
-from weaver.lib.defaults import HOME_DIR
-from weaver.engines import engine_list
-from weaver.lib.engine_tools import file_2list
+# from weaver.lib.defaults import HOME_DIR
+# from weaver.engines import engine_list
+# from weaver.lib.engine_tools import file_2list
 from weaver.lib.engine_tools import create_file
+from retriever import dataset_names as dt
 
 # Set postgres password, Appveyor service needs the password given
 # The Travis service obtains the password from the config file.
@@ -41,7 +38,7 @@ if docker_or_travis == "true":
     os_password = 'Password12!'
     pgdb = "pgdb"
 
-postgres_engine, sqlite_engine = engine_list
+# postgres_engine, sqlite_engine = engine_list
 
 table_one = {
     'name': 'table-one',
@@ -251,15 +248,38 @@ RETRIEVER_HOME_DIR = os.path.expanduser('~/.retriever/')
 def setup_scripts():
     for test in tests:
         if not os.path.exists(os.path.join(RETRIEVER_HOME_DIR, "raw_data", test['name'])):
-            os.makedirs(os.path.join(RETRIEVER_HOME_DIR, "raw_data", test['name']))
+            os.makedirs(os.path.join(RETRIEVER_HOME_DIR, "raw_data", test['name']),exist_ok=True)
         rd_path = os.path.join(RETRIEVER_HOME_DIR,
                                "raw_data", test['name'], test['name'] + '.txt')
         create_file(test['raw_data'], rd_path)
         path_js = os.path.join(RETRIEVER_HOME_DIR, "scripts", test['name'] + '.json')
+        if not os.path.exists(os.path.join(RETRIEVER_HOME_DIR, "scripts")):
+            os.makedirs(os.path.join(RETRIEVER_HOME_DIR, "scripts"))
         with open(path_js, 'w') as js:
             json.dump(test['script'], js, indent=2)
         read_json(os.path.join(RETRIEVER_HOME_DIR, "scripts", test['name']))
 
+def test_weaver_test_scripts():
+    # Test if local files are there
+    data_packages_exists = True
+    test_directory = ['tables-a-b-columns-a',
+                      'tables-a-c-columns-a-b',
+                      'tables-a-b-columns-a-custom',
+                      'tables-a-c-e-columns-a-b',
+                      'tables-a-b-d-columns-a']
+    for item in test_directory:
+        file_paths = os.path.join(test_data_packages, item.replace("-","_") + '.json')
+        if not file_exists(file_paths):
+            data_packages_exists = False
 
 if __name__ == '__main__':
-    setup_scripts()
+    sc = dt()
+    sc = dt()
+    file_location = os.path.dirname(os.path.realpath(__file__))
+    print(file_location)
+    # setup_scripts()
+    # from retriever import reload_scripts
+    # reload_scripts()
+    # cs = dt()
+    # print(cs)
+

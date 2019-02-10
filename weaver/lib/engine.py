@@ -222,8 +222,33 @@ class Engine(object):
                 dbname = ''
         return self.opts["table_name"].format(db=dbname, table=name)
 
-    def to_csv(self):
+    def to_csv(self, sort=True, path=None, table_name=None):
+        # Due to Cyclic imports we can not move this import to the top
+        #
+        # for table_name in self.script_table_registry[self.script.name]:
+        #
+        # csv_file_output = os.path.normpath(os.path.join(path if path else '',
+        #                                                 table_name[0] + '.csv'))
+
+        csv_file_output = os.path.normpath(os.path.join(path, table_name + '.csv'))
+        csv_file = open_fw(csv_file_output)
+        csv_writer = open_csvw(csv_file)
+        self.get_cursor()
+        self.set_engine_encoding()
+        self.cursor.execute("SELECT * FROM  {};".format(table_name))
+        row = self.cursor.fetchone()
+        column_names = [u'{}'.format(tuple_i[0])
+                        for tuple_i in self.cursor.description]
+        csv_writer.writerow(column_names)
+        while row is not None:
+            csv_writer.writerow(row)
+            row = self.cursor.fetchone()
+        csv_file.close()
+        # ToDos later for regression tests
+        # if sort:
+        #     sort_csv(csv_file_output)
         self.disconnect()
+        return csv_file
 
     def warning(self, warning):
         new_warning = Warning('%s:%s' % (self.script.name, self.table.name), warning)

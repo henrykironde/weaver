@@ -2,7 +2,6 @@
 # """Integrations tests for Data Weaver"""
 from __future__ import print_function
 
-import imp
 import json
 import os
 import shlex
@@ -10,10 +9,11 @@ import shutil
 import subprocess
 import sys
 from imp import reload
-
+import pytest
+from retriever import dataset_names
 from retriever import install_postgres
 from retriever import install_sqlite
-
+from retriever import reload_scripts
 from weaver.lib.defaults import ENCODING
 
 encoding = ENCODING.lower()
@@ -21,11 +21,8 @@ encoding = ENCODING.lower()
 reload(sys)
 if hasattr(sys, 'setdefaultencoding'):
     sys.setdefaultencoding(encoding)
-import pytest
 from weaver.lib.load_json import read_json
-from weaver.lib.defaults import HOME_DIR
 from weaver.engines import engine_list
-from weaver.lib.engine_tools import file_2list
 from weaver.lib.engine_tools import create_file
 
 # Set postgres password, Appveyor service needs the password given
@@ -40,7 +37,14 @@ docker_or_travis = os.environ.get("IN_DOCKER")
 if docker_or_travis == "true":
     os_password = 'Password12!'
     pgdb = "pgdb"
-
+file_location = os.path.normpath(os.path.dirname(os.path.realpath(__file__)))
+TEST_DATA_PACKAEGES = os.path.normpath(os.path.join(file_location, "test_data_packages"))
+TESTS_SCRIPTS = [
+        "table-one",
+        "table-two",
+        "table-three",
+        "table-four",
+        "table-five"]
 postgres_engine, sqlite_engine = engine_list
 
 table_one = {
@@ -236,6 +240,12 @@ db_md5 = [
     ('table-five', '98dcfdca19d729c90ee1c6db5221b775')
 ]
 
+test_directory = ['multi_columns_multi_tables.json',
+                  'simple_join_one_column_custom.json',
+                  'one_column_multi_tables.json',
+                  'simple_join_two_column.json',
+                  'simple_join_one_column.json']
+
 # Create a tuple of all test scripts with their expected values
 # test_parameters = [(test, test['expect_out']) for test in tests]
 
@@ -245,7 +255,10 @@ file_location = os.path.dirname(os.path.realpath(__file__))
 retriever_root_dir = os.path.abspath(os.path.join(file_location, os.pardir))
 
 
-RETRIEVER_HOME_DIR = os.path.expanduser('~/.retriever/')
+RETRIEVER_HOME_DIR = os.path.normpath(os.path.expanduser('~/.retriever/'))
+WEAVER_HOME_DIR = os.path.normpath(os.path.expanduser('~/.weaver/'))
+WEAVER_SCRIPT_DIR = os.path.normpath(os.path.expanduser('~/.weaver/scripts/'))
+
 
 
 def setup_module():
@@ -253,6 +266,7 @@ def setup_module():
     setup_postgres_db()
     setup_sqlite_db()
 
+    setup_weaver_data_packages()
 
 def teardown_sqlite_db():
     dbfile = os.path.normpath(os.path.join(os.getcwd(), 'testdb.sqlite'))
@@ -270,6 +284,11 @@ def setup_scripts():
         with open(path_js, 'w') as js:
             json.dump(test['script'], js, indent=2)
         read_json(os.path.join(RETRIEVER_HOME_DIR, "scripts", test['name']))
+    reload_scripts()
+
+    # reload(retriever)
+    # reload(install_postgres)
+    # reload(i)
 
 
 def teardown_scripts():
@@ -300,6 +319,7 @@ def install_dataset_postgres(dataset):
                             'table_name': '{db}.{table}'}
     interface_opts = {"user": 'postgres',
                       "password": postgres_engine.opts['password'],
+                      "host": postgres_engine.opts['host'],
                       "database": postgres_engine.opts['database'],
                       "database_name": postgres_engine.opts['database_name'],
                       "table_name": postgres_engine.opts['table_name']}
@@ -340,8 +360,12 @@ def setup_sqlite_db():
 ################
 
 
+def file_exists(path):
+    """Return true if a file exists and its size is greater than 0."""
+    return os.path.isfile(path) and os.path.getsize(path) > 0
+
+
 def test_test_scripts():
-    # setup_module()
     scrpts_and_raw_data = True
     db_md5
     # ToDOs: Change tests the db_md5 and make it Global
@@ -363,12 +387,133 @@ def test_test_scripts():
             scrpts_and_raw_data = False
     assert scrpts_and_raw_data is True
 
+def setup_directories():
+    # ToDos all directories are should be down well
+    print("# ToDos all directories are should be down well")
+    # exit()
 
-def file_exists(path):
-    """Return true if a file exists and its size is greater than 0."""
-    return os.path.isfile(path) and os.path.getsize(path) > 0
+
+def setup_weaver_data_packages():
+    if not WEAVER_SCRIPT_DIR:
+        setup_directories()
+    # Copy all the files to weaver scripts to be able to install them
+    for i in test_directory:
+        # print(i)
+        pack_path = os.path.normpath(os.path.join(TEST_DATA_PACKAEGES, i))
+    # print(['cp', '-r', pack_path, WEAVER_SCRIPT_DIR])
+    #     subprocess.call(['cp', '-r', pack_path, WEAVER_SCRIPT_DIR])
 
 
+def test_weaver_test_data_packages():
+    # Test if local files are there
+    data_packages_exists = True
+    test_directory = ['multi_columns_multi_tables.json',
+                      'simple_join_one_column_custom.json',
+                      'one_column_multi_tables.json',
+                      'simple_join_two_column.json',
+                      'simple_join_one_column.json']
+
+    for item in test_directory:
+        file_paths = os.path.join(WEAVER_SCRIPT_DIR, item.replace("-", "_") + '.json')
+        print(file_paths)
+    #     if not file_exists(file_paths):
+    #         data_packages_exists = False
+    # assert data_packages_exists is True
+
+
+def test_scripts():
+    TESTS_SCRIPTS = [
+        "table-one",
+        "table-two",
+        "table-three",
+        "table-four",
+        "table-five"]
+    assert set(TESTS_SCRIPTS).issubset(set(dataset_names()))
+
+#######################
+# To csv
+
+#######################
+#######################
+#######################
+
+test_parameters = [(test, test[1]) for test in db_md5]
+
+
+def get_script_module(script_name):
+    """Load a script module."""
+    print(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
+    return read_json(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
+
+
+
+# def get_output_asg_csv(dataset, engines, tmpdir, db):
+#     """Install dataset and return the output as a string version of the csv."""
+#     workdir = tmpdir.mkdtemp()
+#     workdir.chdir()
+#
+#     # Since we are writing scripts to the .retriever directory,
+#     # we don't have to change to the main source directory in order
+#     # to have the scripts loaded
+#     script_module = get_script_module(dataset["name"])
+#     engines.script_table_registry = {}
+#     script_module.download(engines)
+#     script_module.engine.final_cleanup()
+#     script_module.engine.to_csv()
+#     # get filename and append .csv
+#     csv_file = engines.opts['table_name'].format(db=db, table=dataset["name"])
+#     # csv engine already has the .csv extension
+#     if engines.opts["engine"] != 'csv':
+#         csv_file += '.csv'
+#     obs_out = file_2list(csv_file)
+#     os.chdir(retriever_root_dir)
+#     return obs_out
+
+def get_output_as_csv(dataset, engines, tmpdir, db):
+    """Install dataset and return the output as a string version of the csv."""
+
+    # Since we are writing scripts to the .retriever directory,
+    # we don't have to change to the main source directory in order
+    # to have the scripts loaded
+    script_module = get_script_module(dataset)
+    csv_file = script_module.engines.to_csv()
+    return csv_file, dataset
+
+# def test_sqlite_join:
+#     pass
+
+
+@pytest.mark.parametrize("dataset, expected", test_parameters)
+def test_postgres(dataset, expected=None, tmpdir=None):
+    postgres_engine.opts = {'engine': 'postgres',
+                            'user': 'postgres',
+                            'password': os_password,
+                            'host': pgdb,
+                            'port': 5432,
+                            'database': 'testdb',
+                            'database_name': 'testschema',
+                            'table_name': '{db}.{table}'}
+    interface_opts = {"user": 'postgres',
+                      "password": postgres_engine.opts['password'],
+                      "host": postgres_engine.opts['host'],
+                      "database": postgres_engine.opts['database'],
+                      "database_name": postgres_engine.opts['database_name'],
+                      "table_name": postgres_engine.opts['table_name']}
+    get_output_as_csv(dataset, postgres_engine, tmpdir,
+                             db=postgres_engine.opts['database_name'])
+    # assert get_output_as_csv(dataset, postgres_engine, tmpdir,
+    #                          db=postgres_engine.opts['database_name']) == expected
+    # assert f
+    # os.chdir(retriever_root_dir)
+    # return obs_out
+
+
+if __name__ == '__main__':
+    setup_weaver_data_packages()
+    print(test_directory[0])
+    test_postgres(test_directory[0])
+    # print(test_postgres(test_directory[0]))
+    print("done.....")
 # test_test_scripts()
 ##############################
 # Clean up Testing Environment
