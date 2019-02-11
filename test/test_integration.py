@@ -9,7 +9,9 @@ import shutil
 import subprocess
 import sys
 from imp import reload
+
 import pytest
+
 from retriever import dataset_names
 from retriever import install_postgres
 from retriever import install_sqlite
@@ -240,11 +242,12 @@ db_md5 = [
     ('table-five', '98dcfdca19d729c90ee1c6db5221b775')
 ]
 
-test_directory = ['multi_columns_multi_tables.json',
-                  'simple_join_one_column_custom.json',
-                  'one_column_multi_tables.json',
-                  'simple_join_two_column.json',
-                  'simple_join_one_column.json']
+# File name with out .json extension, read_json add the extension
+TEST_DATA_PACKAGE_FILES = ['multi_columns_multi_tables',
+                           'simple_join_one_column_custom',
+                           'one_column_multi_tables',
+                           'simple_join_two_column',
+                           'simple_join_one_column']
 
 # Create a tuple of all test scripts with their expected values
 # test_parameters = [(test, test['expect_out']) for test in tests]
@@ -260,13 +263,13 @@ WEAVER_HOME_DIR = os.path.normpath(os.path.expanduser('~/.weaver/'))
 WEAVER_SCRIPT_DIR = os.path.normpath(os.path.expanduser('~/.weaver/scripts/'))
 
 
-
 def setup_module():
     setup_scripts()
     setup_postgres_db()
     setup_sqlite_db()
 
     setup_weaver_data_packages()
+
 
 def teardown_sqlite_db():
     dbfile = os.path.normpath(os.path.join(os.getcwd(), 'testdb.sqlite'))
@@ -353,8 +356,6 @@ def setup_sqlite_db():
     for i in db_md5:
         install_sqlite_regression(i[0])
 
-
-
 ################
 # Weaver Testing
 ################
@@ -387,6 +388,7 @@ def test_test_scripts():
             scrpts_and_raw_data = False
     assert scrpts_and_raw_data is True
 
+
 def setup_directories():
     # ToDos all directories are should be down well
     print("# ToDos all directories are should be down well")
@@ -397,11 +399,9 @@ def setup_weaver_data_packages():
     if not WEAVER_SCRIPT_DIR:
         setup_directories()
     # Copy all the files to weaver scripts to be able to install them
-    for i in test_directory:
-        # print(i)
-        pack_path = os.path.normpath(os.path.join(TEST_DATA_PACKAEGES, i))
-    # print(['cp', '-r', pack_path, WEAVER_SCRIPT_DIR])
-    #     subprocess.call(['cp', '-r', pack_path, WEAVER_SCRIPT_DIR])
+    for file_name in TEST_DATA_PACKAGE_FILES:
+        pack_path = os.path.normpath(os.path.join(TEST_DATA_PACKAEGES, file_name + ".json"))
+        shutil.copy(pack_path, WEAVER_SCRIPT_DIR)
 
 
 def test_weaver_test_data_packages():
@@ -431,7 +431,7 @@ def test_scripts():
     assert set(TESTS_SCRIPTS).issubset(set(dataset_names()))
 
 #######################
-# To csv
+# To integrate and dump out csv
 
 #######################
 #######################
@@ -444,8 +444,6 @@ def get_script_module(script_name):
     """Load a script module."""
     print(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
     return read_json(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
-
-
 
 # def get_output_asg_csv(dataset, engines, tmpdir, db):
 #     """Install dataset and return the output as a string version of the csv."""
@@ -469,6 +467,7 @@ def get_script_module(script_name):
 #     os.chdir(retriever_root_dir)
 #     return obs_out
 
+
 def get_output_as_csv(dataset, engines, tmpdir, db):
     """Install dataset and return the output as a string version of the csv."""
 
@@ -476,8 +475,13 @@ def get_output_as_csv(dataset, engines, tmpdir, db):
     # we don't have to change to the main source directory in order
     # to have the scripts loaded
     script_module = get_script_module(dataset)
-    csv_file = script_module.engines.to_csv()
-    return csv_file, dataset
+    script_module.integrate(engines)
+    script_module.engine.final_cleanup()
+    h= script_module.engine.to_csv()
+    # print(type(script_module))
+    print(h)
+    # csv_file = script_module.engine.to_csv()
+    # return csv_file, dataset
 
 # def test_sqlite_join:
 #     pass
@@ -509,11 +513,15 @@ def test_postgres(dataset, expected=None, tmpdir=None):
 
 
 if __name__ == '__main__':
+    # print(os.environ)
+    # exit()
     setup_weaver_data_packages()
-    print(test_directory[0])
-    test_postgres(test_directory[0])
-    # print(test_postgres(test_directory[0]))
+    setup_module()
+    print(TEST_DATA_PACKAGE_FILES[0])
+    test_postgres(TEST_DATA_PACKAGE_FILES[0])
+    # print(test_postgres(TEST_DATA_PACKAGE_FILES[0]))
     print("done.....")
+
 # test_test_scripts()
 ##############################
 # Clean up Testing Environment

@@ -1,5 +1,5 @@
 {
-  "name": "tables_a_b_d_columns_a",
+  "name": "tables-a-b-d-columns-a",
   "version": "1.0.0",
   "citation": [
     {
@@ -20,7 +20,7 @@
       "table_d": []
     },
   "result": {
-    "dataset": "tables_a_b_d_columns_a",
+    "dataset": "tables-a-b-d-columns-a",
     "table": "a_b_d",
     "fields": ["a","b", "c","d", "e","f", "g"]
   },

@@ -4,9 +4,10 @@ from __future__ import print_function
 import os
 
 from weaver.engines import choose_engine
-from weaver.lib.defaults import DATA_DIR
+from weaver.lib.defaults import DATA_DIR, SCRIPT_WRITE_PATH
 from weaver.lib.scripts import SCRIPT_LIST
 from weaver.lib.engine_tools import name_matches
+from weaver.lib.repository import check_for_updates
 
 
 def _join(args, use_cache, debug, compile):
@@ -15,15 +16,15 @@ def _join(args, use_cache, debug, compile):
     engine.use_cache = use_cache
 
     script_list = SCRIPT_LIST()
+    if not (script_list or os.listdir(SCRIPT_WRITE_PATH)):
+        check_for_updates()
+        script_list = SCRIPT_LIST()
     scripts = name_matches(script_list, args['dataset'])
     if scripts:
-        for dataset in scripts:
-            print("=> Integrating", dataset.name)
+        for dataset_script in scripts:
             try:
-                dataset.integrate(engine, debug=debug)
-                dataset.engine.final_cleanup()
-            except KeyboardInterrupt:
-                pass
+                dataset_script.integrate(engine, debug=debug)
+                dataset_script.engine.final_cleanup()
             except Exception as e:
                 print(e)
                 if debug:
@@ -33,6 +34,7 @@ def _join(args, use_cache, debug, compile):
                   "Run weaver.datasets()to list the currently available " \
                   "datasets".format(args['dataset'])
         raise ValueError(message)
+    return engine
 
 
 def join_postgres(dataset, user='postgres', password='',
@@ -61,7 +63,7 @@ def join_postgres(dataset, user='postgres', password='',
         'use_cache': use_cache
     }
 
-    _join(args, use_cache, debug, compile)
+    return _join(args, use_cache, debug, compile)
 
 
 def join_sqlite(dataset, file=None, table_name=None,
@@ -82,7 +84,7 @@ def join_sqlite(dataset, file=None, table_name=None,
         'use_cache': use_cache
     }
 
-    _join(args, use_cache, debug, compile)
+    return _join(args, use_cache, debug, compile)
 
 
 

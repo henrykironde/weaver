@@ -230,6 +230,13 @@ class Engine(object):
         # csv_file_output = os.path.normpath(os.path.join(path if path else '',
         #                                                 table_name[0] + '.csv'))
 
+        if not table_name:
+            # use the script result-name
+            if self.script.db_table_name:
+                table_name = self.script.db_table_name
+            print("no table specified")
+            return
+
         csv_file_output = os.path.normpath(os.path.join(path, table_name + '.csv'))
         csv_file = open_fw(csv_file_output)
         csv_writer = open_csvw(csv_file)
