@@ -266,7 +266,7 @@ WEAVER_SCRIPT_DIR = os.path.normpath(os.path.expanduser('~/.weaver/scripts/'))
 def setup_module():
     setup_scripts()
     setup_postgres_db()
-    setup_sqlite_db()
+    # setup_sqlite_db()
 
     setup_weaver_data_packages()
 
@@ -356,10 +356,6 @@ def setup_sqlite_db():
     for i in db_md5:
         install_sqlite_regression(i[0])
 
-################
-# Weaver Testing
-################
-
 
 def file_exists(path):
     """Return true if a file exists and its size is greater than 0."""
@@ -387,6 +383,18 @@ def test_test_scripts():
         if not file_exists(retriever_script_path):
             scrpts_and_raw_data = False
     assert scrpts_and_raw_data is True
+
+def test_scripts():  # retriever
+    TESTS_SCRIPTS = [
+        "table-one",
+        "table-two",
+        "table-three",
+        "table-four",
+        "table-five"]
+    assert set(TESTS_SCRIPTS).issubset(set(dataset_names()))
+################
+# Weaver Testing
+################
 
 
 def setup_directories():
@@ -421,14 +429,7 @@ def test_weaver_test_data_packages():
     # assert data_packages_exists is True
 
 
-def test_scripts():
-    TESTS_SCRIPTS = [
-        "table-one",
-        "table-two",
-        "table-three",
-        "table-four",
-        "table-five"]
-    assert set(TESTS_SCRIPTS).issubset(set(dataset_names()))
+
 
 #######################
 # To integrate and dump out csv
@@ -444,6 +445,7 @@ def get_script_module(script_name):
     """Load a script module."""
     print(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
     return read_json(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
+
 
 # def get_output_asg_csv(dataset, engines, tmpdir, db):
 #     """Install dataset and return the output as a string version of the csv."""
@@ -513,9 +515,13 @@ def test_postgres(dataset, expected=None, tmpdir=None):
 
 
 if __name__ == '__main__':
+
+    # setup_module()
+
+
     # print(os.environ)
     # exit()
-    setup_postgres_db()
+    # setup_module()
     # setup_weaver_data_packages()
     # setup_module()
     # print(TEST_DATA_PACKAGE_FILES[0])
