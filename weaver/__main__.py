@@ -16,7 +16,7 @@ from weaver.lib.engine_tools import name_matches
 from weaver.lib.get_opts import parser
 
 from weaver.lib.repository import check_for_updates
-from weaver.lib.scripts import SCRIPT_LIST, get_script
+from weaver.lib.scripts import SCRIPT_LIST, reload_scripts, get_script
 
 
 def main():
@@ -25,13 +25,17 @@ def main():
         # if no command line args are passed, show the help options
         parser.parse_args(['-h'])
     else:
-        if not os.path.isdir(SCRIPT_SEARCH_PATHS[1]) and not \
-                [f for f in os.listdir(SCRIPT_SEARCH_PATHS[-1])
-                 if os.path.exists(SCRIPT_SEARCH_PATHS[-1])]:
-            check_for_updates()
-        script_list = SCRIPT_LIST()
-
         args = parser.parse_args()
+
+        if args.command not in ['reset', 'update'] \
+                and not os.path.isdir(SCRIPT_SEARCH_PATHS[1]) \
+                and not [f for f in os.listdir(SCRIPT_SEARCH_PATHS[-1])
+                         if os.path.exists(SCRIPT_SEARCH_PATHS[-1])]:
+            check_for_updates()
+            reload_scripts()
+        script_list = SCRIPT_LIST()
+        if args.command == "join" and not args.engine:
+            parser.parse_args(['join', '-h'])
 
         if args.quiet:
             sys.stdout = open(os.devnull, 'w')
@@ -111,8 +115,8 @@ def main():
                 debug = False
                 sys.tracebacklimit = 0
 
-            if args.config is not None:
-                scripts = name_matches(script_list, args.config)
+            if args.dataset is not None:
+                scripts = name_matches(script_list, args.dataset)
             if scripts:
                 for dataset in scripts:
                     print("=> Integrating", dataset.name)

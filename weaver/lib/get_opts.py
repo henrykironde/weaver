@@ -1,10 +1,6 @@
-from __future__ import print_function
-
-from future import standard_library
-
-standard_library.install_aliases()
-
 import argparse
+import os
+
 
 from weaver.engines import engine_list
 from weaver.lib.defaults import VERSION
@@ -16,12 +12,11 @@ parser = argparse.ArgumentParser(prog="weaver")
 parser.add_argument('-v', '--version', action='version', version=VERSION)
 parser.add_argument('-q', '--quiet', help='suppress command-line output', action='store_true')
 
-subparsers = parser.add_subparsers(help='sub-command help', dest='command')
-
 # ..............................................................
 # subparsers
 # ..............................................................
 
+subparsers = parser.add_subparsers(help='sub-command help', dest='command')
 help_parser = subparsers.add_parser('help', help='')
 
 ls_parser = subparsers.add_parser('ls', help='display a list all available datasets')
@@ -45,6 +40,7 @@ join_subparsers = join_parser.add_subparsers(help='engine-specific help', dest='
 
 for engine in engine_list:
     join_engine_parser = join_subparsers.add_parser(engine.abbreviation, help=engine.name)
+    join_engine_parser.add_argument('dataset', help='file name')
 
     abbreviations = set('h')
     for arg in engine.required_opts:
@@ -59,8 +55,8 @@ for engine in engine_list:
                                         '-%s' % abbreviation,
                                         help=help_msg, nargs='?',
                                         default=default)
-join_parser.add_argument('config', help='file name', default=None)
+# # join_parser.add_argument('config', help='file name', default=None)
 
-if __name__ == "__main__":
-    args = parser.parse_args()
-    print(args)
+# if __name__ == "__main__":
+#     args = parser.parse_args()
+#     print(args)

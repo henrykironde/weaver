@@ -114,15 +114,20 @@ class BasicTextTemplate(Script):
         """
         Script.integrate(self, engine, debug)
         sql_statement = make_sql(self)
+
         # may be, make it a property self.final_default based on engine
         result_db = engine.database_name()
         result_table = self.result["table"]
         db_table_name = "{db_name}.{table_name}".format(db_name=result_db, table_name=result_table)
-        self.db_table_name = db_table_name
 
+        self.db_table_name = db_table_name
         Script.db_table_name = db_table_name
+
+
         drop_query = self.engine.drop_statement("TABLE", db_table_name)
         join_query = sql_statement.format(result_dbi=result_db, result_tablei=result_table)
+        print(join_query)
+        exit()
         try:
             if self.engine.debug:
                 print(drop_query)

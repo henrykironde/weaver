@@ -38,6 +38,8 @@ def reload_scripts():
                     loaded_files.append(script_name)
                     loaded_scripts.append(read_script.name.lower())
 
+    if global_script_list:
+        global_script_list.set_scripts(modules)
     return modules
 
 
@@ -125,5 +127,7 @@ class StoredScripts:
     def get_scripts(self):
         return self._shared_scripts
 
+    def set_scripts(self, script_list):
+        self._shared_scripts = script_list
 
 global_script_list = StoredScripts()

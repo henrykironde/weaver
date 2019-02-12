@@ -515,11 +515,12 @@ def test_postgres(dataset, expected=None, tmpdir=None):
 if __name__ == '__main__':
     # print(os.environ)
     # exit()
-    setup_weaver_data_packages()
-    setup_module()
-    print(TEST_DATA_PACKAGE_FILES[0])
-    test_postgres(TEST_DATA_PACKAGE_FILES[0])
-    # print(test_postgres(TEST_DATA_PACKAGE_FILES[0]))
+    setup_postgres_db()
+    # setup_weaver_data_packages()
+    # setup_module()
+    # print(TEST_DATA_PACKAGE_FILES[0])
+    # test_postgres(TEST_DATA_PACKAGE_FILES[0])
+    # # print(test_postgres(TEST_DATA_PACKAGE_FILES[0]))
     print("done.....")
 
 # test_test_scripts()
