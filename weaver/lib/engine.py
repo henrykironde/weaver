@@ -222,7 +222,7 @@ class Engine(object):
                 dbname = ''
         return self.opts["table_name"].format(db=dbname, table=name)
 
-    def to_csv(self, sort=True, path=None, table_name=None):
+    def to_csv(self, sort=True, path=os.getcwd(), table_name=None):
         # Due to Cyclic imports we can not move this import to the top
         #
         # for table_name in self.script_table_registry[self.script.name]:
@@ -234,9 +234,8 @@ class Engine(object):
             # use the script result-name
             if self.script.db_table_name:
                 table_name = self.script.db_table_name
-            print("no table specified")
-            return
-
+                print("no table specified")
+            # return
         csv_file_output = os.path.normpath(os.path.join(path, table_name + '.csv'))
         csv_file = open_fw(csv_file_output)
         csv_writer = open_csvw(csv_file)
