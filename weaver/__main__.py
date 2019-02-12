@@ -12,7 +12,7 @@ import sys
 from weaver.engines import engine_list, choose_engine
 from weaver.lib.datasets import datasets,  dataset_names, license
 from weaver.lib.defaults import CITATION, SCRIPT_SEARCH_PATHS
-from weaver.lib.engine_tools import name_matches
+from weaver.lib.engine_tools import name_matches, reset_weaver
 from weaver.lib.get_opts import parser
 
 from weaver.lib.repository import check_for_updates
@@ -34,6 +34,7 @@ def main():
             check_for_updates()
             reload_scripts()
         script_list = SCRIPT_LIST()
+
         if args.command == "join" and not args.engine:
             parser.parse_args(['join', '-h'])
 
@@ -42,8 +43,13 @@ def main():
 
         if args.command == 'help':
             parser.parse_args(['-h'])
+
         if args.command == 'update':
-            check_for_updates(False)
+            check_for_updates()
+            reload_scripts()
+            return
+        if args.command == 'reset':
+            reset_weaver(args.scope)
             return
         if args.command == 'citation':
             if args.dataset is None:
@@ -59,6 +65,7 @@ def main():
                     for cite in dataset.citation:
                         for key, value in cite.items():
                             print ("{k}:    {v}".format(k=key, v=value))
+            return
         if args.command == 'license':
             dataset_license = license(args.dataset)
             if dataset_license:
