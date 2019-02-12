@@ -3,21 +3,21 @@
   "version": "1.0.0",
   "citation": [
     {
-      "table_a": "citatation for table_a",
-      "table_b": "citatation for table_b",
-      "table_c": "citatation for table_c"
+      "table_one": "citatation for table_one",
+      "table_three": "citatation for table_three",
+      "table_five": "citatation for table_five"
     }
   ],
-  "description": "Integrated dataset of table_a and table_b, table_d using columns a and b",
+  "description": "Integrated dataset of table_one and table_two, table_four using columns a and b",
   "retriever-datasets": [],
   "keywords": [
     "Tests"
   ],
   "licenses":
     {
-      "table_a": [],
-      "table_c": [],
-      "table_e": []
+      "table_one": [],
+      "table_three": [],
+      "table_five": []
     },
   "result": {
     "dataset": "tables-a-c-e-columns-a-b",
@@ -25,9 +25,9 @@
     "fields": []
   },
   "main_file": {
-    "path": "table_one.table_a",
-    "database_name": "table_one",
-    "table_name": "table_a",
+    "path": "testschema.table_one",
+    "database_name": "testschema",
+    "table_name": "table_one",
     "table_type": "tabular",
       "fields": [
         "a",
@@ -37,8 +37,8 @@
   },
   "tables": [
     {
-      "database_name": "table_one",
-      "table_name": "table_a",
+      "database_name": "testschema",
+      "table_name": "table_one",
       "table_type": "tabular",
       "fields": [
         "a",
@@ -47,8 +47,8 @@
       ]
     },
     {
-      "database_name": "table_one",
-      "table_name": "table_c",
+      "database_name": "testschema",
+      "table_name": "table_three",
       "table_type": "tabular",
       "fields": [
         "a",
@@ -57,8 +57,8 @@
       ]
     },
     {
-      "database_name": "table_one",
-      "table_name": "table_e",
+      "database_name": "testschema",
+      "table_name": "table_five",
       "table_type": "tabular",
       "fields": [
         "id",
@@ -70,9 +70,9 @@
   ],
   "join": [
     {
-      "table": "table_one.table_c",
-      "database_name": "table_one",
-      "table_name": "table_c",
+      "table": "testschema.table_three",
+      "database_name": "testschema",
+      "table_name": "table_three",
       "table_type": "tabular",
       "fields_to_use": [
          "a",
@@ -81,14 +81,14 @@
        ],
       "join_ocn": {
         "common_field": [],
-        "table_one.table_a": ["a", "b"],
-        "table_one.table_c": ["a", "b"]
+        "testschema.table_one": ["a", "b"],
+        "testschema.table_three": ["a", "b"]
       }
     },
     {
-      "table": "table_one.table_e",
-      "database_name": "table_one",
-      "table_name": "table_e",
+      "table": "testschema.table_five",
+      "database_name": "testschema",
+      "table_name": "table_five",
       "table_type": "tabular",
       "fields_to_use": [
         "id",
@@ -98,8 +98,8 @@
        ],
       "join_ocn": {
         "common_field": [],
-        "table_one.table_a": ["a", "b"],
-        "table_one.table_e": ["A", "B"]
+        "testschema.table_one": ["a", "b"],
+        "testschema.table_five": ["A", "B"]
       }
     }
   ]

@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "citation": [
     {
-      "table_a": "citatation for table_a",
-      "table_b": "citatation for table_b"
+      "table_one": "citatation for table_one",
+      "table_two": "citatation for table_two"
     }
   ],
-  "description": "Integrated dataset of table_a and table_b using columns a",
+  "description": "Integrated dataset of table_one and table_two using columns a",
   "retriever-datasets": [],
   "keywords": [
     "Tests"
   ],
   "licenses":
     {
-      "table_a": [],
-      "table_b": []
+      "table_one": [],
+      "table_two": []
     },
   "result": {
     "dataset": "tables-a-b-columns-a",
@@ -23,9 +23,9 @@
     "fields": ["a","b", "c","d", "e"]
   },
   "main_file": {
-    "path": "table_one.table_a",
-    "database_name": "table_one",
-    "table_name": "table_a",
+    "path": "testschema.table_one",
+    "database_name": "testschema",
+    "table_name": "table_one",
     "table_type": "tabular",
       "fields": [
         "a",
@@ -35,8 +35,8 @@
   },
   "tables": [
     {
-      "database_name": "table_one",
-      "table_name": "table_a",
+      "database_name": "testschema",
+      "table_name": "table_one",
       "table_type": "tabular",
       "fields": [
         "a",
@@ -45,8 +45,8 @@
       ]
     },
     {
-      "database_name": "table_one",
-      "table_name": "table_b",
+      "database_name": "testschema",
+      "table_name": "table_two",
       "table_type": "tabular",
       "fields": [
         "a",
@@ -57,9 +57,9 @@
   ],
   "join": [
     {
-      "table": "table_one.table_b",
-      "database_name": "table_one",
-      "table_name": "table_b",
+      "table": "testschema.table_two",
+      "database_name": "testschema",
+      "table_name": "table_two",
       "table_type": "tabular",
       "fields_to_use": [
          "a",
@@ -68,8 +68,8 @@
        ],
       "join_ocn": {
         "common_field": [],
-        "table_one.table_a": ["a"],
-        "table_one.table_b": ["a"]
+        "testschema.table_one": ["a"],
+        "testschema.table_two": ["a"]
       }
     }
   ]

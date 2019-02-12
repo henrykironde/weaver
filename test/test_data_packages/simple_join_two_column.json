@@ -3,19 +3,19 @@
   "version": "1.0.0",
   "citation": [
     {
-      "table_a": "citatation for table_a",
-      "table_c": "citatation for table_c"
+      "table_one": "citatation for table_one",
+      "table_three": "citatation for table_three"
     }
   ],
-  "description": "Integrated dataset of table_a and table_c using columns a and b",
+  "description": "Integrated dataset of table_one and table_three using columns a and b",
   "retriever-datasets": [],
   "keywords": [
     "Tests"
   ],
   "licenses":
     {
-      "table_a": [],
-      "table_c": []
+      "table_one": [],
+      "table_three": []
     },
   "result": {
     "dataset": "tables-a-c-columns-a-b",
@@ -23,9 +23,9 @@
     "fields": ["a","b", "c", "e"]
   },
   "main_file": {
-    "path": "table_one.table_a",
-    "database_name": "table_one",
-    "table_name": "table_a",
+    "path": "testschema.table_one",
+    "database_name": "testschema",
+    "table_name": "table_one",
     "table_type": "tabular",
       "fields": [
         "a",
@@ -35,8 +35,8 @@
   },
   "tables": [
     {
-      "database_name": "table_one",
-      "table_name": "table_a",
+      "database_name": "testschema",
+      "table_name": "table_one",
       "table_type": "tabular",
       "fields": [
         "a",
@@ -45,8 +45,8 @@
       ]
     },
     {
-      "database_name": "table_one",
-      "table_name": "table_c",
+      "database_name": "testschema",
+      "table_name": "table_three",
       "table_type": "tabular",
       "fields": [
         "a",
@@ -57,9 +57,9 @@
   ],
   "join": [
     {
-      "table": "table_one.table_c",
-      "database_name": "table_one",
-      "table_name": "table_c",
+      "table": "testschema.table_three",
+      "database_name": "testschema",
+      "table_name": "table_three",
       "table_type": "tabular",
       "fields_to_use": [
          "a",
@@ -68,8 +68,8 @@
        ],
       "join_ocn": {
         "common_field": [],
-        "table_one.table_a": ["a", "b"],
-        "table_one.table_c": ["a", "b"]
+        "testschema.table_one": ["a", "b"],
+        "testschema.table_three": ["a", "b"]
       }
     }
   ]
