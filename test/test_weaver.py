@@ -37,8 +37,8 @@
 #
 # # Main paths
 # HOMEDIR = os.path.expanduser('~')
-# file_location = os.path.dirname(os.path.realpath(__file__))
-# weaver_root_dir = os.path.abspath(os.path.join(file_location, os.pardir))
+# FILE_LOCATION = os.path.dirname(os.path.realpath(__file__))
+# weaver_root_dir = os.path.abspath(os.path.join(FILE_LOCATION, os.pardir))
 #
 # # Setup paths for the raw data files used
 # raw_dir_files = os.path.normpath(os.path.join(weaver_root_dir,
