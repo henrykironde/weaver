@@ -10,12 +10,15 @@ import subprocess
 import sys
 import pandas
 from imp import reload
+from collections import OrderedDict
 
 from retriever import dataset_names
 from retriever import install_postgres
 from retriever import install_sqlite
 from retriever import reload_scripts as retriever_reload_scripts
 from weaver.lib.defaults import ENCODING
+
+
 
 encoding = ENCODING.lower()
 
@@ -243,12 +246,13 @@ WEAVER_TEST_DATA_PACKAEGES_DIR = os.path.normpath(os.path.join(FILE_LOCATION, "t
 # (Script file name with no extensio, script name, result table, expected)
 
 WEAVER_TEST_DATA_PACKAGE_FILES2 = [(
-    'simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', [('a', [1, 2]),
-                                                                                   ('b', [3, 4]),
-                                                                                   ('c', [5, 6]),
-                                                                                   ('d', ['r', 's']),
-                                                                                   ('e', ['UV', 'WX']),
-                                                                                   ])]
+    'simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', [{'a': [1, 2],
+                                                                                        'b': [3, 4],
+                                                                                        'c': [5, 6],
+                                                                                        'd': ['r', 's'],
+                                                                                        'e': ['UV', 'WX']},
+                                                                                        ]
+)]
 
 # File names without `.json` extension
 WEAVER_TEST_DATA_PACKAGE_FILES = [file_base_names[0] for file_base_names in WEAVER_TEST_DATA_PACKAGE_FILES2]
@@ -453,26 +457,45 @@ def get_script_module(script_name):
     print(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
     return read_json(os.path.join(WEAVER_HOME_DIR, "scripts", script_name))
 
+#
+# def get_output_as_csv(dataset, engines, tmpdir, file_name,db):
+#     """Install dataset and return the output as a string version of the csv."""
+#
+#     # Since we are writing scripts to the .retriever directory,
+#     # we don't have to change to the main source directory in order
+#     # to have the scripts loaded
+#     script_module = get_script_module(file_name)
+#     script_module.integrate(engines)
+#     script_module.engine.final_cleanup()
+#     csv_file = script_module.engine.to_csv()
+#     # print(type(script_module))
+#     # print(h)
+#     # csv_file = script_module.engine.to_csv()
+#     # return csv_file, dataset
+#     return csv_file
 
-def get_output_as_csv(dataset, engines, tmpdir, db):
+def get_output_as_csv(dataset, engines, tmpdir,db):
     """Install dataset and return the output as a string version of the csv."""
-
-    # Since we are writing scripts to the .retriever directory,
-    # we don't have to change to the main source directory in order
-    # to have the scripts loaded
-    script_module = get_script_module(dataset)
-    script_module.integrate(engines)
-    script_module.engine.final_cleanup()
-    csv_file = script_module.engine.to_csv()
+    import weaver
+    h = weaver.join_postgres("tables-a-b-columns-a", database='testdb')
+    csv_file = h.to_csv()
     # print(type(script_module))
     # print(h)
     # csv_file = script_module.engine.to_csv()
     # return csv_file, dataset
     return csv_file
+# [('simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', [('a', [1, 2]),
+#                                                                                    ('b', [3, 4]),
+#                                                                                    ('c', [5, 6]),
+#                                                                                    ('d', ['r', 's']),
+#                                                                                    ('e', ['UV', 'WX']),
+#                                                                                    ])]
+# test_parameters = [(test[1], test[2], test[3]) for test in WEAVER_TEST_DATA_PACKAGE_FILES2]
 
 
 @pytest.mark.parametrize("dataset, csv_file, expected", test_parameters)
-def test_postgres(dataset, csv_file, expected=None, tmpdir=None):
+def test_postgres(dataset, csv_file, expected):
+    tmpdir = None
     postgres_engine.opts = {'engine': 'postgres',
                             'user': 'postgres',
                             'password': os_password,
@@ -487,11 +510,12 @@ def test_postgres(dataset, csv_file, expected=None, tmpdir=None):
                       "database": postgres_engine.opts['database'],
                       "database_name": postgres_engine.opts['database_name'],
                       "table_name": postgres_engine.opts['table_name']}
-    res_csv = get_output_as_csv(dataset, postgres_engine, tmpdir,
-                             db=postgres_engine.opts['database_name'])
+    res_csv = get_output_as_csv(dataset, postgres_engine, tmpdir, db=postgres_engine.opts['database_name'])
 
-    df = pandas.DataFrame.from_items(expected)
-    data = pandas.read_csv(csv_file)
+
+    # df = pandas.DataFrame.from_items(expected)
+    df=pandas.DataFrame.from_dict(expected)
+    data = pandas.read_csv(res_csv)
     assert df.equals(data)
 
 #     # assert get_output_as_csv(dataset, postgres_engine, tmpdir,

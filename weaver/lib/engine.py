@@ -254,7 +254,7 @@ class Engine(object):
         # if sort:
         #     sort_csv(csv_file_output)
         self.disconnect()
-        return csv_file
+        return csv_file_output
 
     def warning(self, warning):
         new_warning = Warning('%s:%s' % (self.script.name, self.table.name), warning)
