@@ -31,7 +31,7 @@ import pytest
 from weaver.lib.load_json import read_json
 from weaver.engines import engine_list
 from weaver.lib.engine_tools import create_file
-
+from weaver import reload_scripts as weaver_reload_scripts
 
 FILE_LOCATION = os.path.normpath(os.path.dirname(os.path.realpath(__file__)))
 RETRIEVER_HOME_DIR = os.path.normpath(os.path.expanduser('~/.retriever/'))
@@ -313,6 +313,7 @@ def set_weaver_data_packages(resources_up=True):
             scr_pack_path = os.path.join(WEAVER_TEST_DATA_PACKAEGES_DIR, file_name + ".json")
             pack_path = os.path.normpath(scr_pack_path)
             shutil.copy(pack_path, WEAVER_SCRIPT_DIR)
+            weaver_reload_scripts()
         else:
             dest_pack_path = os.path.join(WEAVER_SCRIPT_DIR, file_name + ".json")
             dest_path = os.path.normpath(dest_pack_path)
@@ -320,6 +321,7 @@ def set_weaver_data_packages(resources_up=True):
                 os.remove(dest_path)
 
 
+    # weaver_reload_scripts()
 def install_to_database(dataset, install_function, config):
     # install_function(dataset.replace('_', '-'), **config)
     install_function(dataset, **config)
@@ -481,6 +483,7 @@ def get_script_module(script_name):
 def get_output_as_csv(f, dataset, engines, tmpdir,db):
     """Install dataset and return the output as a string version of the csv."""
     import weaver
+    weaver_reload_scripts()
     h = weaver.join_postgres("tables-a-b-columns-a", database='testdb')
     csv_file = h.to_csv()
     # print(type(script_module))
@@ -519,8 +522,20 @@ def test_postgres(f, dataset, csv_file, expected):
 
     # df = pandas.DataFrame.from_items(expected)
     df=pandas.DataFrame.from_dict(OrderedDict(expected))
+
     data = pandas.read_csv(res_csv)
+
+
+    assert sorted(list(data.columns)) == sorted(list(df.columns))
+    data = data[sorted(sorted(list(data.columns)))]
+    df = df[sorted(sorted(list(df.columns)))]
+
     assert df.equals(data)
+
+    # assert (data[sorted(data.columns)]).empty(df[sorted(df.columns)])
+
+
+    # assert df.equals(data)
 
 #     # assert get_output_as_csv(dataset, postgres_engine, tmpdir,
 #     #                          db=postgres_engine.opts['database_name']) == expected
