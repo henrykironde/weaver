@@ -16,17 +16,28 @@ h.to_csv()
 import pandas as pd
 data = pd.read_csv("tables_a_b_columns_a.a_b.csv")
 print(data)
-
-import pandas as pd
-from collections import OrderedDict
-from datetime import date
-
-sales = [('a', [1, 2]),
-         ('b', [3, 4]),
-         ('c', [5, 6]),
-         ('d', ['r', 's']),
-         ('e', ['UV', 'WX']),
-         ]
-df = pd.DataFrame.from_items(sales)
-print(df.equals(data))
+#
+# import pandas as pd
+# from collections import OrderedDict
+# from datetime import date
+#
+# sales = [('a', [1, 2]),
+#          ('b', [3, 4]),
+#          ('c', [5, 6]),
+#          ('d', ['r', 's']),
+#          ('e', ['UV', 'WX']),
+#          ]
+#
+#
+sales1 = pd.DataFrame({'a': [1, 2],
+'b': [3, 4],
+'c': [5, 6],
+'d': ['r', 's'],
+'e': ['UV', 'WX']
+})
+df = sales1
 print(df)
+# # df = pd.DataFrame.from_items(sales1)
+# # print(df.equals(data))
+# # print(df)
+

@@ -78,7 +78,7 @@ table_one = {
                          }
                       ]
                     },
-                    "url": "http://example.com/table-one.txt"}
+                    "url": "http://example.com/table_one.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0"
@@ -113,7 +113,7 @@ table_two = {
                          }
                       ]
                     },
-                    "url": "http://example.com/table-two.txt"}
+                    "url": "http://example.com/table_two.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0"
@@ -149,7 +149,7 @@ table_three = {
                       }
                     ]
                     },
-                    "url": "http://example.com/table-three.txt"}
+                    "url": "http://example.com/table_three.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0"
@@ -184,7 +184,7 @@ table_four = {
                         }
                       ]
                     },
-                    "url": "http://example.com/table-four.txt"}
+                    "url": "http://example.com/table_four.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0"
@@ -222,7 +222,7 @@ table_five = {
                          }
                         ]
                     },
-                    "url": "http://example.com/table-five.txt"}
+                    "url": "http://example.com/table_five.txt"}
                ],
                "retriever": "True",
                "version": "1.0.0"
@@ -246,12 +246,13 @@ WEAVER_TEST_DATA_PACKAEGES_DIR = os.path.normpath(os.path.join(FILE_LOCATION, "t
 # (Script file name with no extensio, script name, result table, expected)
 
 WEAVER_TEST_DATA_PACKAGE_FILES2 = [(
-    'simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', [{'a': [1, 2],
+    'simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', { 'a': [1, 2],
                                                                                         'b': [3, 4],
                                                                                         'c': [5, 6],
-                                                                                        'd': ['r', 's'],
-                                                                                        'e': ['UV', 'WX']},
-                                                                                        ]
+                                                                                        'e': ['UV', 'WX'],
+                                                                                        'd': ['r', 's']
+                                                                                        }
+
 )]
 
 # File names without `.json` extension
@@ -271,7 +272,7 @@ def set_retriever_resources(resource_up=True):
         data_file_name = file_names['name'].replace("-", "_") + '.txt'
         data_file_path = os.path.normpath(os.path.join(data_dir_path, data_file_name))
         script_name = file_names['script']["name"] + '.json'
-        script_file_path = os.path.normpath(os.path.join(RETRIEVER_SCRIPT_DIR, script_name))
+        script_file_path = os.path.normpath(os.path.join(RETRIEVER_SCRIPT_DIR, script_name.replace("-", "_")))
 
         # Set or tear down raw data files
         # in '~/.retriever/raw_data/data_dir_path/data_file_name'
@@ -372,12 +373,14 @@ def install_dataset_postgres(dataset):
 def setup_postgres_retriever_db():
     teardown_postgres_db()
     for test_data in RETRIEVER_TESTS_DATA:
+        print(test_data["script"]["name"])
         install_dataset_postgres(test_data["script"]["name"])
 
 
 def teardown_postgres_db():
-    cmd = 'psql -U postgres -d testdb -h ' + pgdb + ' -w -c \"DROP SCHEMA IF EXISTS testschema CASCADE\"'
-    subprocess.call(shlex.split(cmd))
+    # cmd = 'psql -U postgres -d testdb -h ' + pgdb + ' -w -c \"DROP SCHEMA IF EXISTS testschema CASCADE\"'
+    # subprocess.call(shlex.split(cmd))
+    pass
 
 
 def setup_module():
@@ -407,11 +410,11 @@ def test_retriever_test_resources():
 
     for items in tests_scripts:
         retriever_raw_data_path = os.path.normpath(
-            os.path.join(RETRIEVER_HOME_DIR, 'raw_data', items, items + '.txt'))
+            os.path.join(RETRIEVER_HOME_DIR, 'raw_data', items, items .replace("-", "_")+ '.txt'))
         if not file_exists(retriever_raw_data_path):
             scrpts_and_raw_data = False
         retriever_script_path = os.path.normpath(
-            os.path.join(RETRIEVER_HOME_DIR, 'scripts', items + '.json'))
+            os.path.join(RETRIEVER_HOME_DIR, 'scripts', items.replace("-", "_") + '.json'))
         if not file_exists(retriever_script_path):
             scrpts_and_raw_data = False
     assert scrpts_and_raw_data is True
@@ -474,7 +477,8 @@ def get_script_module(script_name):
 #     # return csv_file, dataset
 #     return csv_file
 
-def get_output_as_csv(dataset, engines, tmpdir,db):
+
+def get_output_as_csv(f, dataset, engines, tmpdir,db):
     """Install dataset and return the output as a string version of the csv."""
     import weaver
     h = weaver.join_postgres("tables-a-b-columns-a", database='testdb')
@@ -493,8 +497,8 @@ def get_output_as_csv(dataset, engines, tmpdir,db):
 # test_parameters = [(test[1], test[2], test[3]) for test in WEAVER_TEST_DATA_PACKAGE_FILES2]
 
 
-@pytest.mark.parametrize("dataset, csv_file, expected", test_parameters)
-def test_postgres(dataset, csv_file, expected):
+@pytest.mark.parametrize("f, dataset, csv_file, expected", WEAVER_TEST_DATA_PACKAGE_FILES2)
+def test_postgres(f, dataset, csv_file, expected):
     tmpdir = None
     postgres_engine.opts = {'engine': 'postgres',
                             'user': 'postgres',
@@ -510,11 +514,11 @@ def test_postgres(dataset, csv_file, expected):
                       "database": postgres_engine.opts['database'],
                       "database_name": postgres_engine.opts['database_name'],
                       "table_name": postgres_engine.opts['table_name']}
-    res_csv = get_output_as_csv(dataset, postgres_engine, tmpdir, db=postgres_engine.opts['database_name'])
+    res_csv = get_output_as_csv(f, dataset, postgres_engine, tmpdir, db=postgres_engine.opts['database_name'])
 
 
     # df = pandas.DataFrame.from_items(expected)
-    df=pandas.DataFrame.from_dict(expected)
+    df=pandas.DataFrame.from_dict(OrderedDict(expected))
     data = pandas.read_csv(res_csv)
     assert df.equals(data)
 
@@ -527,13 +531,16 @@ def test_postgres(dataset, csv_file, expected):
 #
 # if __name__ == '__main__':
 #
-#     set_weaver_data_packages(resources_up=True)
+#     # set_weaver_data_packages(resources_up=True)
 #     # setup_module()s
 #
 #
 #     # print(os.environ)
 #     # exit()
-#     # setup_module()
+#     set_retriever_resources(resource_up=True)
+#     set_weaver_data_packages(resources_up=True)
+#     setup_postgres_retriever_db()
+#
 #     # setup_weaver_data_packages()
 #     # setup_module()
 #     # print(WEAVER_TEST_DATA_PACKAGE_FILES[0])
