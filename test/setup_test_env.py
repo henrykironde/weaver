@@ -10,7 +10,7 @@ import numpy
 # 'tables-a-c-e-columns-a-b']
 
 
-h = weaver.join_postgres("tables-a-b-columns-a", database='testdb')
+h = weaver.join_postgres("tables-a-c-e-columns-a-b", database='testdb')
 h.to_csv()
 
 import pandas as pd

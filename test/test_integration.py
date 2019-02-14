@@ -245,15 +245,35 @@ WEAVER_TEST_DATA_PACKAEGES_DIR = os.path.normpath(os.path.join(FILE_LOCATION, "t
 # Weaver test data(Tuple)
 # (Script file name with no extensio, script name, result table, expected)
 
-WEAVER_TEST_DATA_PACKAGE_FILES2 = [(
-    'simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', { 'a': [1, 2],
+WEAVER_TEST_DATA_PACKAGE_FILES2 = [
+    # ('multi_columns_multi_tables', 'tables-a-c-e-columns-a-b','tables-a-c-e-columns-a-b.a_b_e.csv', {}),
+    ('one_column_multi_tables', 'tables-a-b-d-columns-a', 'tables-a-b-d-columns-a.a_b_d.csv',{ 'a': [1, 2],
+                                                                                                'b': [3, 4],
+                                                                                                'c': [5, 6],
+                                                                                                'e': ['UV', 'WX'],
+                                                                                                'd': ['r', 's'],
+                                                                                                'g': [6, 5],
+                                                                                                'f': [3, 2],
+
+                                                                                        }),
+    ('simple_join_one_column_custom', 'tables-a-b-columns-a-custom','tables-a-b-columns-a-custom.a_b_custom.csv', { 'a': [1, 2],
+                                                                                                                    'b': [3, 4],
+                                                                                                                    'c': [5, 6],
+                                                                                                                    'e': ['UV', 'WX']
+                                                                                        }),
+    ('simple_join_two_column', 'tables-a-c-columns-a-b', 'tables-a-c-columns-a-b.a_b.csv',{ 'a': [1, 2],
+                                                                                            'b': [3, 4],
+                                                                                            'c': [5, 6],
+                                                                                        'e': ['WX', 'OP']
+                                                                                        })
+    ,
+    ('simple_join_one_column', 'tables-a-b-columns-a', 'tables-a-b-columns-a.a_b.csv', { 'a': [1, 2],
                                                                                         'b': [3, 4],
                                                                                         'c': [5, 6],
                                                                                         'e': ['UV', 'WX'],
                                                                                         'd': ['r', 's']
-                                                                                        }
-
-)]
+                                                                                        })
+]
 
 # File names without `.json` extension
 WEAVER_TEST_DATA_PACKAGE_FILES = [file_base_names[0] for file_base_names in WEAVER_TEST_DATA_PACKAGE_FILES2]
@@ -321,7 +341,7 @@ def set_weaver_data_packages(resources_up=True):
                 os.remove(dest_path)
 
 
-    # weaver_reload_scripts()
+# weaver_reload_scripts()
 def install_to_database(dataset, install_function, config):
     # install_function(dataset.replace('_', '-'), **config)
     install_function(dataset, **config)
@@ -484,7 +504,8 @@ def get_output_as_csv(f, dataset, engines, tmpdir,db):
     """Install dataset and return the output as a string version of the csv."""
     import weaver
     weaver_reload_scripts()
-    h = weaver.join_postgres("tables-a-b-columns-a", database='testdb')
+    h = weaver.join_postgres(dataset, database='testdb')
+    # h = weaver.join_postgres("tables-a-b-columns-a", database='testdb')
     csv_file = h.to_csv()
     # print(type(script_module))
     # print(h)
@@ -524,6 +545,7 @@ def test_postgres(f, dataset, csv_file, expected):
     df=pandas.DataFrame.from_dict(OrderedDict(expected))
 
     data = pandas.read_csv(res_csv)
+    os.remove(res_csv)
 
 
     assert sorted(list(data.columns)) == sorted(list(df.columns))
