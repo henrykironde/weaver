@@ -334,4 +334,4 @@ def make_sql(dataset):
                                         res="{result_dbi}.{result_tablei}",
                                         where_stm=where_clause,
                                         table_m=as_processed_table[main_table_path]["name"])
-    return pivot_query + query_statement
+    return pivot_query + query_statement + " Limit 4"

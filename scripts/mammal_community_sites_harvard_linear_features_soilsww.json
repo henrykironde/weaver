@@ -1,5 +1,5 @@
 {
-  "name": "mammal-community-sites-harvard-linear-features-soils",
+  "name": "mammal-community-sites-harvard-linear-features-soilsww",
   "version": "1.0.0",
   "citation": [
     {
@@ -22,7 +22,7 @@
       "harvard-forest": ["CC BY-ND"]
     },
   "result": {
-    "dataset": "mammal_community_sites_harvard_linear_features_soil",
+    "dataset": "mammal_community_sites_harvard_linear_features_soilww",
     "table": "sites_linear_features_soils",
     "fields": [],
      "lat_long": ["latitude","longitude"]
@@ -89,6 +89,7 @@
       "table_type": "vector",
       "table_name": "linear_features",
        "fields_to_use": [
+         "gid",
          "type"
        ],
       "join_ocn": {
@@ -103,6 +104,7 @@
       "table_type": "vector",
       "table_name": "soils",
        "fields_to_use": [
+         "gid",
          "type_",
           "simmons_so",
           "mesic_soil",
