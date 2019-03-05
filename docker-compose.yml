@@ -10,14 +10,16 @@ services:
       MYSQL_DATABASE: testdb
 
   pgdbs:
-    image: postgres
+    image: mdillon/postgis:9.6-alpine
     environment:
       # Lets use sdocker-entrypoint-initdb.d/init-user-db.sh
       # to set up the user and create the user privilege
       # POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password12!
+      POSTGRES_USER: postgres
       POSTGRES_DB: testdb
-
+    volumes:
+      - ./cli_tools/:/tmp/postgis
   weav:
     container_name: weaver_container
     image: weaver_image
