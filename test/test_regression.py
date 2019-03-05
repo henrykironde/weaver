@@ -12,6 +12,10 @@ from imp import reload
 import pandas
 import pytest
 
+
+import time
+
+
 from retriever import dataset_names
 from retriever import install_postgres
 from weaver import reload_scripts as weaver_reload_scripts
@@ -145,6 +149,8 @@ def get_output_as_csv(dataset, engines, db):
     import weaver
     weaver_reload_scripts()
     eng = weaver.join_postgres(dataset, database=testdb, host=pgdbs, password=os_password)
+    # Wait for 5 seconds
+    time.sleep(20)
     csv_file = eng.to_csv()
     return csv_file
 
@@ -166,7 +172,7 @@ def test_postgres(dataset, csv_file, expected):
                       "database": postgres_engine.opts['database'],
                       "database_name": postgres_engine.opts['database_name'],
                       "table_name": postgres_engine.opts['table_name']}
-    # res_csv = get_output_as_csv(dataset, postgres_engine, db=postgres_engine.opts['database_name'])
-    # # assert getmd5(res_csv) ==expected
-    # assert file_exists(res_csv)
+    res_csv = get_output_as_csv(dataset, postgres_engine, db=postgres_engine.opts['database_name'])
+    # assert getmd5(res_csv) ==expected
+    assert file_exists(res_csv)
     assert 1 == 1
