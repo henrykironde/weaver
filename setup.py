@@ -130,6 +130,6 @@ try:
     from weaver.lib.repository import check_for_updates
 
     compile()
-    check_for_updates()
+    check_for_updates(False)
 except:
     pass
