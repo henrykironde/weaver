@@ -29,6 +29,7 @@ update_parser = subparsers.add_parser(
     "update", help="download updated versions of data package scripts"
 )
 reset_parser = subparsers.add_parser("reset", help="reset pydataweaver: deletes scripts")
+trim_parser = subparsers.add_parser("trim", help="Sample a table ")
 
 #  ..............................................................
 # subparsers with Arguments
@@ -52,14 +53,20 @@ ls_parser.add_argument(
 )
 join_parser.add_argument("--debug", help="run in debug mode", action="store_true")
 join_subparsers = join_parser.add_subparsers(help="engine-specific help", dest="engine")
+trim_subparsers = trim_parser.add_subparsers(help="engine-specific help", dest="engine")
 reset_parser.add_argument("scope", help="things to reset: scripts", choices=["scripts"])
 
 for engine in engine_list:
+    trim_engine_parser = trim_subparsers.add_parser(
+        engine.abbreviation, help=engine.name
+    )
     join_engine_parser = join_subparsers.add_parser(
         engine.abbreviation, help=engine.name
     )
     join_engine_parser.add_argument("dataset", help="file name")
-
+    trim_engine_parser.add_argument("dataset", help="file name")
+    trim_engine_parser.add_argument("--table-name", "-t", help="table or resource to sample", nargs="?")
+    trim_engine_parser.add_argument("--fields", "-f", help="List of field required", nargs="?")
     abbreviations = set("h")
     for arg in engine.required_opts:
         arg_name, help_msg, default = arg[:3]
