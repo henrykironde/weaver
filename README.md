@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/weecology/pydataweaver.svg?branch=master)](https://travis-ci.org/weecology/pydataweaver)
 [![Build status (windows)](https://ci.appveyor.com/api/projects/status/x9a6ol3dl5mf2wr7/branch/master?svg=true)](https://ci.appveyor.com/project/ethanwhite/pydataweaver/branch/master)
-[![Documentation Status](https://readthedocs.org/projects/pydataweaver/badge/?version=latest)](http://pydataweaver.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/pydataweaver/badge/?version=latest)](https://pydataweaver.readthedocs.io/?badge=latest)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/weecology/pydataweaver/master/LICENSE)
 [![Join the chat at https://gitter.im/weecology/pydataweaver](https://badges.gitter.im/weecology/pydataweaver.svg)](https://gitter.im/weecology/retriever?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
